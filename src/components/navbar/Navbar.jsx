@@ -1,12 +1,31 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import cl from "./Navbar.module.scss";
 
 const Navbar = () => {
   return (
-    <div>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/messages">Messages</NavLink>
-      <NavLink to="/profile">Profile</NavLink>
+    <div className={cl.navbar}>
+      <div className="container">
+        <nav className={cl.inner}>
+        <ul className={cl.menu}>
+          <li className={cl.menu_item}>
+            <NavLink className={cl.menu_link} to="/">
+              Home
+            </NavLink>
+          </li>
+          <li className={cl.menu_item}>
+            <NavLink className={cl.menu_link} to="/messages">
+              Messages
+            </NavLink>
+          </li>
+          <li className={cl.menu_item}>
+            <NavLink className={cl.menu_link} to="/profile">
+              Profile
+            </NavLink>
+          </li>
+        </ul>
+        </nav>
+      </div>
     </div>
   );
 };
