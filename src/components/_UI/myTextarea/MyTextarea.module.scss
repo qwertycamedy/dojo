@@ -1,0 +1,18 @@
+.textarea {
+    background: transparent;
+    border: 1px solid var(--slate);
+    width: 90% !important;
+    min-height: 100px;
+    border-radius: 10px;
+    padding: 7px 10px;
+    outline: none;
+    color: var(--white);
+
+    &::placeholder {
+        color: var(--slate);
+    }
+
+    &:hover, &:focus {
+        border: 1px solid var(--white);
+    }
+}

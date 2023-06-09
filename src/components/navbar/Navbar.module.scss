@@ -5,6 +5,8 @@
     width: 100%;
     background: var(--black);
     border-radius: 15px 15px 0 0;
+    z-index: 10;
+  box-shadow: var(--shadow);
 }
 
 .inner {

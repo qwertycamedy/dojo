@@ -1,7 +1,7 @@
 import React from 'react'
 import MessagesLinks from './links/MessagesLinks'
 import MessagesWindow from './window/MessagesWindow'
-import MyPage from '../../components/myPage/MyPage'
+import MyPage from '../../components/_UI/myPage/MyPage'
 
 const Messages = () => {
   return (

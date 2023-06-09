@@ -1,0 +1,17 @@
+.input {
+    background: transparent;
+    border: 1px solid var(--slate);
+    width: 90% !important;
+    border-radius: 10px;
+    padding: 7px 10px;
+    outline: none;
+    color: var(--white);
+
+    &::placeholder {
+        color: var(--slate);
+    }
+
+    &:hover, &:focus {
+        border: 1px solid var(--white);
+    }
+}

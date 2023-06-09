@@ -1,8 +1,9 @@
 import React from 'react'
+import MySection from '../../../components/_UI/mySection/MySection'
 
 const MessagesWindow = () => {
   return (
-    <div>MessagesWindow</div>
+    <MySection>MessagesWindow</MySection>
   )
 }
 

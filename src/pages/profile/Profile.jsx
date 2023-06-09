@@ -1,13 +1,15 @@
 import React from 'react'
-import MyPage from '../../components/myPage/MyPage'
 import ProfileHeader from './header/ProfileHeader'
 import ProfilePosts from './posts/ProfilePosts'
+import MyPage from '../../components/_UI/myPage/MyPage'
+import CreatePost from '../../components/posts/createPost/CreatePost'
 
 const Profile = () => {
   return (
     <MyPage>
         <ProfileHeader />
         <ProfilePosts />
+        <CreatePost />
     </MyPage>
   )
 }
