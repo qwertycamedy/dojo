@@ -42,9 +42,9 @@ const ProfilePosts = () => {
   const sortedPosts = searchedPosts && [...searchedPosts];
 
   if (sortBy === "asc") {
-    sortedPosts?.sort((a, b) => String(a.id).localeCompare(b.id));
+    sortedPosts?.sort((a, b) => String(a.id).localeCompare(String(b.id)));
   } else if (sortBy === "desc") {
-    sortedPosts?.sort((a, b) => String(b.id).localeCompare(a.id));
+    sortedPosts?.sort((a, b) => String(b.id).localeCompare(String(a.id)));
   }
 
 

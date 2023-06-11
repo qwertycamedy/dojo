@@ -1,11 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const postsUrl = "https://6485fc1ca795d24810b78e08.mockapi.io/posts";
+const postsUrl = "https://6485fc1ca795d24810b78e08.mockapi.io/posts";
 
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   const res = await axios.get(postsUrl);
   return res.data;
+});
+
+export const submitNewPost = createAsyncThunk("posts/submitNewPost", async newPost => {
+  const res = await axios.post(postsUrl, newPost);
+  return res.data
 });
 
 export const loadStatus = {
@@ -43,13 +48,6 @@ const postsSlice = createSlice({
       state.areaValue = action.payload;
     },
 
-    createNewPost: (state, action) => {
-      state.posts.push(action.payload);
-      state.inputValue = "";
-      state.photoValue = "";
-      state.areaValue = "";
-    },
-
     removePost: (state, action) => {
       state.posts = state.posts.filter(post => post.id !== action.payload);
     },
@@ -75,6 +73,7 @@ const postsSlice = createSlice({
 
   extraReducers: builder => {
     builder
+      //fetch
       .addCase(fetchPosts.pending, state => {
         state.postsLoadStatus = loadStatus.LOADING;
         state.posts = [];
@@ -84,6 +83,22 @@ const postsSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(fetchPosts.rejected, state => {
+        state.posts = [];
+        state.postsLoadStatus = loadStatus.ERROR;
+      })
+      //submit
+      .addCase(submitNewPost.pending, state => {
+        state.postsLoadStatus = loadStatus.LOADING;
+      })
+      .addCase(submitNewPost.fulfilled, (state, action) => {
+        state.postsLoadStatus = loadStatus.SUCCESS;
+        state.posts.push(action.payload);
+        state.inputValue = "";
+        state.photoValue = "";
+        state.areaValue = "";
+        console.log(state.posts, action.payload);
+      })
+      .addCase(submitNewPost.rejected, state => {
         state.posts = [];
         state.postsLoadStatus = loadStatus.ERROR;
       });
@@ -97,7 +112,6 @@ export const {
   setInputValue,
   setPhotoValue,
   setAreaValue,
-  createNewPost,
   removePost,
 } = postsSlice.actions;
 

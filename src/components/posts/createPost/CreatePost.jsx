@@ -6,16 +6,20 @@ import MyTextarea from "../../_UI/myTextarea/MyTextarea";
 import MyBtn from "../../_UI/myBtn/MyBtn";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createNewPost,
   setInputValue,
   setPhotoValue,
   setAreaValue,
   setIsModalActive,
   postsSel,
+  submitNewPost,
 } from "../../../redux/slices/posts/postsSlice";
 import { authSel } from "../../../redux/slices/auth/authSlice";
 import MyFileInput from "../../_UI/myFileInput/MyFileInput";
-import { setSearchValue,setSearchDebValue, setSortBy } from "../../../redux/slices/profile/profilePostFiltersSlice";
+import {
+  setSearchValue,
+  setSearchDebValue,
+  setSortBy,
+} from "../../../redux/slices/profile/profilePostFiltersSlice";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
@@ -36,7 +40,7 @@ const CreatePost = () => {
     });
 
     const newPost = {
-      id: posts.length + 1,
+      id: String(posts.length < 9 ? `0${posts.length + 1}` : posts.length + 1),
       title: inputValue,
       img: photoValue,
       date: formattedTimestamp,
@@ -48,13 +52,16 @@ const CreatePost = () => {
 
     if (inputValue || photoValue || areaValue) {
       document.body.classList.remove("overflow-h");
+      dispatch(submitNewPost(newPost));
       dispatch(setIsModalActive(false));
-      dispatch(createNewPost(newPost));
       dispatch(setSortBy("desc"));
       dispatch(setSearchValue(""));
       dispatch(setSearchDebValue(""));
+      console.log(posts);
     }
   };
+
+  
 
   return (
     <MyModal

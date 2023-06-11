@@ -6,6 +6,9 @@
     background: var(--black);
     border-radius: 15px;
     box-shadow: var(--shadow);
+    @media(min-width: 500px) {
+        height: max-content;
+    }
 }
 
 .header {
