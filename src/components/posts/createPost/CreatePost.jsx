@@ -15,6 +15,7 @@ import {
 } from "../../../redux/slices/posts/postsSlice";
 import { authSel } from "../../../redux/slices/auth/authSlice";
 import MyFileInput from "../../_UI/myFileInput/MyFileInput";
+import { setSortBy } from "../../../redux/slices/profile/profilePostFiltersSlice";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
@@ -23,10 +24,22 @@ const CreatePost = () => {
   const { authUser } = useSelector(authSel);
 
   const handleCreate = () => {
+    const timestamp = new Date();
+    const formattedTimestamp = timestamp.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      separator: ".",
+    });
+
     const newPost = {
       id: posts.length + 1,
       title: inputValue,
       img: photoValue,
+      date: formattedTimestamp,
       text: areaValue,
       author: authUser,
       likesCount: 0,
@@ -37,6 +50,7 @@ const CreatePost = () => {
       document.body.classList.remove("overflow-h");
       dispatch(setIsModalActive(false));
       dispatch(createNewPost(newPost));
+      dispatch(setSortBy("desc"));
     }
   };
 

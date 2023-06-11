@@ -12,7 +12,7 @@ import {
 import clsx from "clsx";
 import MyActionMenu from "../../_UI/myActionMenu/MyActionMenu";
 
-const Post = ({ id, author, title, img, text, likesCount, isLiked }) => {
+const Post = ({ id, author, date, title, img, text, likesCount, isLiked }) => {
   const { isAuth, authUser } = useSelector(authSel);
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ const Post = ({ id, author, title, img, text, likesCount, isLiked }) => {
           )}
           <div className={cl.user_info}>
             <h3 className={cl.user_name + " title-3"}>{author}</h3>
-            <p className={cl.user_date}>17:07 / 08.06.23</p>
+            <p className={cl.user_date}>{date}</p>
           </div>
         </div>
 
