@@ -1,42 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+  const postsUrl = "https://6485fc1ca795d24810b78e08.mockapi.io/posts";
+
+  const res = await axios.get(postsUrl);
+  return res.data;
+});
+
+export const loadStatus = {
+  LOADING: "loading",
+  SUCCESS: "success",
+  ERROR: "error",
+};
 
 const initialState = {
-  posts: [
-    {
-      id: 1,
-      title: "First Post!",
-      img: "https://indiegamereviewer.com/wp-content/uploads/2008/10/work-731198_960_720.jpg",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni suscipit atque excepturi veritatis iure repellendus dolor, voluptas ipsam, explicabo, maxime quasi perspiciatis earum ullam facilis maiores quae beatae eum dolore.",
-      author: "Qwerty Camedy",
-      date: '06/11/2023, 07:01',
-      likesCount: 0,
-      isLiked: false,
-    },
-    {
-      id: 2,
-      title: "",
-      img: "",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni suscipit atque excepturi veritatis iure repellendus dolor, voluptas ipsam, explicabo, maxime.",
-      author: "Qwerty Camedy",
-      date: '06/11/2023, 07:02',
-      likesCount: 10,
-      isLiked: false,
-    },
-    {
-      id: 3,
-      title: "",
-      img: "https://assetsio.reedpopcdn.com/hades-2-melinoe-and-hecate.jpg?width=1600&height=900&fit=crop&quality=100&format=png&enable=upscale&auto=webp",
-      text: "",
-      author: "Qwerty Camedy",
-      date: '06/11/2023, 07:03',
-      likesCount: 17341,
-      isLiked: false,
-    },
-  ],
-
+  posts: [],
+  postsLoadStatus: "loading",
   isModalActive: false,
   inputValue: "",
-  photoValue: '',
+  photoValue: "",
   areaValue: "",
 };
 
@@ -63,7 +46,7 @@ const postsSlice = createSlice({
     createNewPost: (state, action) => {
       state.posts.push(action.payload);
       state.inputValue = "";
-      state.photoValue = '';
+      state.photoValue = "";
       state.areaValue = "";
     },
 
@@ -88,6 +71,22 @@ const postsSlice = createSlice({
         findPost.isLiked = false;
       }
     },
+  },
+
+  extraReducers: builder => {
+    builder
+      .addCase(fetchPosts.pending, state => {
+        state.postsLoadStatus = loadStatus.LOADING;
+        state.posts = [];
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.postsLoadStatus = loadStatus.SUCCESS;
+        state.posts = action.payload;
+      })
+      .addCase(fetchPosts.rejected, state => {
+        state.posts = [];
+        state.postsLoadStatus = loadStatus.ERROR;
+      });
   },
 });
 

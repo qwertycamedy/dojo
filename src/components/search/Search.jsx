@@ -1,27 +1,26 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import cl from "./Search.module.scss";
 import { FiSearch } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch } from "react-redux";
 import debounce from "lodash.debounce";
 
-const Search = ({ classNames, placeholder, setValue }) => {
-  const [inputValue, setInputValue] = useState("");
+const Search = ({ classNames, placeholder, value, setValue, setDebValue }) => {
   const dispatch = useDispatch();
 
   const updateSearchValue = useCallback(
-    debounce(str => dispatch(setValue(str)), 350),
+    debounce(str => dispatch(setDebValue(str)), 350),
     []
   );
 
   const onChange = e => {
-    setInputValue(e.target.value);
+    dispatch(setValue(e.target.value));
     updateSearchValue(e.target.value);
   };
 
   const onClear = () => {
-    setInputValue("");
     dispatch(setValue(""));
+    dispatch(setDebValue(""));
   };
 
   return (
@@ -29,10 +28,10 @@ const Search = ({ classNames, placeholder, setValue }) => {
       <input
         className={cl.input}
         placeholder={placeholder}
-        value={inputValue}
+        value={value}
         onChange={onChange}
       />
-      {inputValue ? (
+      {value ? (
         <RxCross2 className={cl.icon} onClick={onClear} />
       ) : (
         <FiSearch className={cl.icon} />

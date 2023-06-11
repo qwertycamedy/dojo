@@ -15,7 +15,7 @@ import {
 } from "../../../redux/slices/posts/postsSlice";
 import { authSel } from "../../../redux/slices/auth/authSlice";
 import MyFileInput from "../../_UI/myFileInput/MyFileInput";
-import { setSortBy } from "../../../redux/slices/profile/profilePostFiltersSlice";
+import { setSearchValue,setSearchDebValue, setSortBy } from "../../../redux/slices/profile/profilePostFiltersSlice";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
@@ -51,6 +51,8 @@ const CreatePost = () => {
       dispatch(setIsModalActive(false));
       dispatch(createNewPost(newPost));
       dispatch(setSortBy("desc"));
+      dispatch(setSearchValue(""));
+      dispatch(setSearchDebValue(""));
     }
   };
 

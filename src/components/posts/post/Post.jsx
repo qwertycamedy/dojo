@@ -65,8 +65,8 @@ const Post = ({ id, author, date, title, img, text, likesCount, isLiked }) => {
             onClick={() => handleLike(id)}
           >
             <FaHeart />
-            {likesCount > 999 ? (
-              <span>99+</span>
+            {likesCount > 10000 ? (<span>10k+</span>) :likesCount > 1000 ? (
+              <span>1k+</span>
             ) : likesCount > 0 ? (
               <span>{likesCount}</span>
             ) : (
