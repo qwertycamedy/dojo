@@ -3,9 +3,9 @@ import cl from './MyPage.module.scss'
 
 const MyPage = ({ children, classNames, ...props }) => {
   return (
-    <section className={classNames + " " + cl.myPage} {...props}>
+    <div className={classNames + " " + cl.myPage} {...props}>
       {children}
-    </section>
+    </div>
   );
 };
 

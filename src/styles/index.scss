@@ -38,6 +38,8 @@ code {
 
 .main {
 	flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
   padding-top: 90px;
   padding-bottom: 75px;
 }

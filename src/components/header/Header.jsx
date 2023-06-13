@@ -6,20 +6,25 @@ import { FaUserCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { headerSel, setTitle } from "../../redux/slices/header/headerSlice";
 import { authSel } from "../../redux/slices/auth/authSlice";
+import { messagesLinksSel } from "../../redux/slices/messages/messagesLinksSlice";
 
 const Header = () => {
   const { title } = useSelector(headerSel);
   const { authUser } = useSelector(authSel)
+  const {messagesLinks} = useSelector(messagesLinksSel);
   const dispatch = useDispatch();
   const location = useLocation().pathname;
 
   useEffect(() => {
     if (location === "/") {
       dispatch(setTitle("HOME"));
+    } else if (location.includes(`messages/`)) {
+      const messagesLink = messagesLinks.find(obj => obj.id === parseInt(location.split("/").pop(), 10));
+      dispatch(setTitle(messagesLink.user.name.split(' ')[0]));
     } else {
       dispatch(setTitle(location.substring(1)));
     }
-  }, [dispatch, location]);
+  }, [dispatch, location, messagesLinks]);
 
   return (
     <header className={cl.header}>
