@@ -17,42 +17,41 @@ import { setIsModalActive } from "../../../redux/slices/posts/postsSlice";
 const ProfileHeader = () => {
   const dispatch = useDispatch();
   const { isStatusShorted } = useSelector(profileHeaderSel);
-  const { isAuth } = useSelector(authSel);
+  const { authUser } = useSelector(authSel);
 
   const handleStatus = () => {
     dispatch(setIsStatusShorted(!isStatusShorted));
   };
 
   const handleToggleCreate = () => {
-    document.body.classList.add('overflow-h')
+    document.body.classList.add("overflow-h");
     dispatch(setIsModalActive(true));
   };
 
   return (
     <MySection classNames={cl.header}>
-      {isAuth ? (
-        <img className={cl.bg} src="" alt="DOJO profile header bg" />
+      {authUser.bg ? (
+        <img className={cl.bg} src={authUser.bg} alt="DOJO profile header bg" />
       ) : (
         <div className={cl.bg + " " + cl.bg_div}></div>
       )}
       <div className={cl.info}>
-        {isAuth ? (
-          <img className={cl.img} src="" alt="DOGO user img" />
+        {authUser.img ? (
+          <img className={cl.img} src={authUser.img} alt="DOGO user img" />
         ) : (
           <FaUserCircle className={cl.img} />
         )}
 
-        <h2 className={cl.name + " title-2"}>Qwerty Camedy</h2>
+        <h2 className={cl.name + " title-2"}>{authUser.name}</h2>
         <button
           className={clsx(cl.status, { [cl.status_more]: !isStatusShorted })}
           onClick={handleStatus}
         >
-          <span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis
-            cumque alias adipisci aperiam quae minus velit iure totam odio harum
-            temporibus nulla mollitia natus, culpa illo beatae. Repellat, ipsum
-            magni.
-          </span>
+          {!isStatusShorted && authUser.status.length > 100 ? (
+            <span>{authUser.status.substr(0, 100) + "..."}</span>
+          ) : (
+            <span>{authUser.status}</span>
+          )}
           <span>{isStatusShorted ? " Less" : " More"}</span>
         </button>
 

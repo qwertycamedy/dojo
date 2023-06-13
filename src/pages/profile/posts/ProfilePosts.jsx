@@ -32,7 +32,7 @@ const ProfilePosts = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const myPosts = posts?.filter(post => post.author === authUser);
+  const myPosts = posts?.filter(post => post.author.name === authUser.name);
   const searchedPosts = myPosts?.filter(
     post =>
       post.title.toLowerCase().includes(searchDebValue.toLowerCase()) ||
@@ -42,9 +42,9 @@ const ProfilePosts = () => {
   const sortedPosts = searchedPosts && [...searchedPosts];
 
   if (sortBy === "asc") {
-    sortedPosts?.sort((a, b) => String(a.id).localeCompare(String(b.id)));
+    sortedPosts?.sort((a, b) => String(a.myId).localeCompare(String(b.myId)));
   } else if (sortBy === "desc") {
-    sortedPosts?.sort((a, b) => String(b.id).localeCompare(String(a.id)));
+    sortedPosts?.sort((a, b) => String(b.myId).localeCompare(String(a.myId)));
   }
 
 

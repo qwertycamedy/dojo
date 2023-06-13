@@ -40,12 +40,16 @@ const CreatePost = () => {
     });
 
     const newPost = {
-      id: String(posts.length < 9 ? `0${posts.length + 1}` : posts.length + 1),
+      myId: String(
+        posts.length < 9
+          ? `0${Number(posts[posts.length - 1].id) + 1}`
+          : Number(posts[posts.length - 1].id) + 1
+      ),
       title: inputValue,
       img: photoValue,
       date: formattedTimestamp,
       text: areaValue,
-      author: authUser,
+      author: { name: authUser.name, img: authUser.img },
       likesCount: 0,
       isLiked: false,
     };
@@ -57,11 +61,8 @@ const CreatePost = () => {
       dispatch(setSortBy("desc"));
       dispatch(setSearchValue(""));
       dispatch(setSearchDebValue(""));
-      console.log(posts);
     }
   };
-
-  
 
   return (
     <MyModal

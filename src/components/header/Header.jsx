@@ -5,9 +5,11 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { headerSel, setTitle } from "../../redux/slices/header/headerSlice";
+import { authSel } from "../../redux/slices/auth/authSlice";
 
-const Header = ({ user }) => {
+const Header = () => {
   const { title } = useSelector(headerSel);
+  const { authUser } = useSelector(authSel)
   const dispatch = useDispatch();
   const location = useLocation().pathname;
 
@@ -28,7 +30,7 @@ const Header = ({ user }) => {
           </Link>
           <h1 className={cl.header__title + " title-1"}>{title}</h1>
           <NavLink className={cl.header__profile} to="/profile">
-            {user ? <img src={user.img} alt={user.name} /> : <FaUserCircle />}
+            {authUser.img ? <img src={authUser.img} alt={authUser.name} /> : <FaUserCircle />}
           </NavLink>
         </div>
       </div>

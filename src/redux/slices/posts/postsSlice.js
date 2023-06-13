@@ -8,9 +8,27 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   return res.data;
 });
 
-export const submitNewPost = createAsyncThunk("posts/submitNewPost", async newPost => {
-  const res = await axios.post(postsUrl, newPost);
-  return res.data
+export const submitNewPost = createAsyncThunk(
+  "posts/submitNewPost",
+  async newPost => {
+    const res = await axios.post(postsUrl, newPost);
+    return res.data;
+  }
+);
+
+export const deletePost = createAsyncThunk("posts/deletePost", async postId => {
+  await axios.delete(`${postsUrl}/${postId}`);
+  return postId;
+});
+
+export const likeInc = createAsyncThunk("posts/likeInc", async updPost => {
+  const res = await axios.put(`${postsUrl}/${updPost.id}`, updPost);
+  return res.data;
+});
+
+export const likeDec = createAsyncThunk("posts/likeDec", async updPost => {
+  const res = await axios.put(`${postsUrl}/${updPost.id}`, updPost);
+  return res.data;
 });
 
 export const loadStatus = {
@@ -22,6 +40,7 @@ export const loadStatus = {
 const initialState = {
   posts: [],
   postsLoadStatus: "loading",
+  likesLoadStatus: "idle",
   isModalActive: false,
   inputValue: "",
   photoValue: "",
@@ -47,28 +66,6 @@ const postsSlice = createSlice({
     setAreaValue: (state, action) => {
       state.areaValue = action.payload;
     },
-
-    removePost: (state, action) => {
-      state.posts = state.posts.filter(post => post.id !== action.payload);
-    },
-
-    likeInc: (state, action) => {
-      const findPost = state.posts.find(post => post.id === action.payload);
-
-      if (findPost) {
-        findPost.likesCount++;
-        findPost.isLiked = true;
-      }
-    },
-
-    likeDec: (state, action) => {
-      const findPost = state.posts.find(post => post.id === action.payload);
-
-      if (findPost) {
-        findPost.likesCount--;
-        findPost.isLiked = false;
-      }
-    },
   },
 
   extraReducers: builder => {
@@ -86,7 +83,7 @@ const postsSlice = createSlice({
         state.posts = [];
         state.postsLoadStatus = loadStatus.ERROR;
       })
-      //submit
+      //submit new post
       .addCase(submitNewPost.pending, state => {
         state.postsLoadStatus = loadStatus.LOADING;
       })
@@ -96,24 +93,55 @@ const postsSlice = createSlice({
         state.inputValue = "";
         state.photoValue = "";
         state.areaValue = "";
-        console.log(state.posts, action.payload);
       })
       .addCase(submitNewPost.rejected, state => {
         state.posts = [];
         state.postsLoadStatus = loadStatus.ERROR;
+      })
+      //delete
+      .addCase(deletePost.pending, state => {
+        state.postsLoadStatus = loadStatus.LOADING;
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.postsLoadStatus = loadStatus.SUCCESS;
+        state.posts = state.posts.filter(post => post.id !== action.payload);
+      })
+      .addCase(deletePost.rejected, state => {
+        state.postsLoadStatus = loadStatus.ERROR;
+      })
+      //likeInc
+      .addCase(likeInc.pending, state => {
+        state.likesLoadStatus = loadStatus.LOADING;
+      })
+      .addCase(likeInc.fulfilled, (state, action) => {
+        state.likesLoadStatus = loadStatus.SUCCESS;
+
+        state.posts = state.posts.map((post) =>
+          post.id === action.payload.id ? action.payload : post
+        );
+      })
+      .addCase(likeInc.rejected, state => {
+        state.likesLoadStatus = loadStatus.ERROR;
+      })
+      //likeDec
+      .addCase(likeDec.pending, state => {
+        state.likesLoadStatus = loadStatus.LOADING;
+      })
+      .addCase(likeDec.fulfilled, (state, action) => {
+        state.likesLoadStatus = loadStatus.SUCCESS;
+
+        state.posts = state.posts.map((post) =>
+          post.id === action.payload.id ? action.payload : post
+        );
+      })
+      .addCase(likeDec.rejected, state => {
+        state.likesLoadStatus = loadStatus.ERROR;
       });
   },
 });
 
-export const {
-  likeInc,
-  likeDec,
-  setIsModalActive,
-  setInputValue,
-  setPhotoValue,
-  setAreaValue,
-  removePost,
-} = postsSlice.actions;
+export const { setIsModalActive, setInputValue, setPhotoValue, setAreaValue } =
+  postsSlice.actions;
 
 export const postsSel = state => state.posts;
 
