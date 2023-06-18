@@ -42,18 +42,20 @@ const ProfileHeader = () => {
           <FaUserCircle className={cl.img} />
         )}
 
-        <h2 className={cl.name + " title-2"}>{authUser.name}</h2>
-        <button
-          className={clsx(cl.status, { [cl.status_more]: !isStatusShorted })}
-          onClick={handleStatus}
-        >
-          {!isStatusShorted && authUser.status.length > 100 ? (
-            <span>{authUser.status.substr(0, 100) + "..."}</span>
-          ) : (
-            <span>{authUser.status}</span>
-          )}
-          <span>{isStatusShorted ? " Less" : " More"}</span>
-        </button>
+        <h2 className={cl.name + " title-2"}>{authUser.nickname}</h2>
+        {authUser.status && (
+          <button
+            className={clsx(cl.status, { [cl.status_more]: !isStatusShorted })}
+            onClick={handleStatus}
+          >
+            {!isStatusShorted && authUser.status.length > 100 ? (
+              <span>{authUser.status.substr(0, 100) + "..."}</span>
+            ) : (
+              <span>{authUser.status}</span>
+            )}
+            <span>{isStatusShorted ? " Less" : " More"}</span>
+          </button>
+        )}
 
         <div className={cl.btns}>
           <MyBtn classNames={cl.create} onClick={handleToggleCreate}>

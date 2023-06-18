@@ -1,0 +1,30 @@
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &_auth {
+    background: var(--blue);
+  }
+
+  &_reg {
+    background: var(--green);
+  }
+  &_dis {
+    opacity: .8;
+    pointer-events: none;
+  }
+}
+
+.switch {
+  text-decoration: underline;
+  transition: opacity 0.2s linear;
+  &:hover {
+    opacity: 0.8;
+  }
+}

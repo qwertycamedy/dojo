@@ -2,24 +2,74 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuth: false,
+  isSignInM: false,
+  isSignUpM: false,
   authUser: {
-    bg: '',
-    img: '',
-    name: "Qwerty Camedy",
-    status: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis
-        cumque alias adipisci aperiam quae minus velit iure totam odio harum
-        temporibus nulla mollitia natus, culpa illo beatae. Repellat, ipsum
-        magni.`,
+    email: null,
+    token: null,
+    id: null,
+    nickname: null,
+    bg: null,
+    img: null,
+    status: null,
   },
+
+  login: "",
+  pass: "",
+  nickname: "",
+  confirmPass: "",
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setIsSignInM: (state, action) => {
+      state.isSignInM = action.payload;
+      state.login = "";
+      state.pass = "";
+    },
+    setIsSignUpM: (state, action) => {
+      state.isSignUpM = action.payload;
+      state.login = "";
+      state.pass = "";
+      state.nickname = "";
+      state.confirmPass = "";
+    },
+    switchM: (state, action) => {
+      state.isSignInM = action.payload.in;
+      state.isSignUpM = action.payload.up;
+      state.login = "";
+      state.pass = "";
+      state.nickname = "";
+      state.confirmPass = "";
+    },
+
+    setLogin: (state, action) => {
+      state.login = action.payload;
+    },
+    setPass: (state, action) => {
+      state.pass = action.payload;
+    },
+    setNickname: (state, action) => {
+      state.nickname = action.payload;
+    },
+    setConfirmPass: (state, action) => {
+      state.confirmPass = action.payload;
+    },
+  },
 });
 
-// export const {} = authSlice.actions;
+export const {
+  setIsSignInM,
+  setIsSignUpM,
+  switchM,
+  setConfirmPass,
+  setLogin,
+  setNickname,
+  setPass,
+} = authSlice.actions;
+
 export const authSel = state => state.auth;
 
 export default authSlice.reducer;

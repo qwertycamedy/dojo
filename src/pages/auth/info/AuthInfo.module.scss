@@ -1,0 +1,31 @@
+.info {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
+}
+
+.btn {
+  &_outer {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  transition: opacity 0.2s linear;
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &.in {
+    background: var(--blue);
+  }
+  &.up {
+    background: var(--green);
+  }
+}
