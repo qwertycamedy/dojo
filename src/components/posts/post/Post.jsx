@@ -82,9 +82,7 @@ const Post = ({
   }, [likesLoadStatus, likesLoader]);
 
   const handleRemove = id => {
-    if (authUser.nickname === author.name) {
       dispatch(deletePost(id));
-    }
   };
 
   return (
@@ -102,7 +100,7 @@ const Post = ({
           </div>
         </div>
 
-        {authUser.name === author.name && (
+        {authUser.nickname === author.name && (
           <MyActionMenu>
             <MyBtn onClick={() => handleRemove(id)}>Remove post</MyBtn>
           </MyActionMenu>

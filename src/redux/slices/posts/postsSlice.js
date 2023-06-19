@@ -1,7 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { loadStatus } from "../../loadStatus";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../../../firebase";
 
 const postsUrl = "https://6485fc1ca795d24810b78e08.mockapi.io/posts";
@@ -11,7 +17,6 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
     const res = await getDocs(collection(db, "posts"));
     const newData = res.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
-    console.log(res);
     return newData;
   } catch (err) {
     console.log(err);
@@ -31,8 +36,15 @@ export const submitNewPost = createAsyncThunk(
 );
 
 export const deletePost = createAsyncThunk("posts/deletePost", async postId => {
-  await axios.delete(`${postsUrl}/${postId}`);
-  return postId;
+  try {
+    const postRef = doc(db, "posts", postId);
+
+    await deleteDoc(postRef);
+
+    return postId;
+  } catch (err) {
+    console.log(`ошибка удаления поста: ${err}`);
+  }
 });
 
 export const likeInc = createAsyncThunk("posts/likeInc", async updPost => {
@@ -61,9 +73,9 @@ const postsSlice = createSlice({
   reducers: {
     setIsModalActive: (state, action) => {
       state.isModalActive = action.payload;
-      state.inputValue = '';
-      state.photoValue = '';
-      state.areaValue = '';
+      state.inputValue = "";
+      state.photoValue = "";
+      state.areaValue = "";
     },
 
     setInputValue: (state, action) => {
