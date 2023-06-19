@@ -10,7 +10,7 @@ import { messagesLinksSel } from "../../redux/slices/messages/messagesLinksSlice
 
 const Header = () => {
   const { title } = useSelector(headerSel);
-  const { authUser } = useSelector(authSel)
+  const { authUser } = useSelector(authSel);
   const {messagesLinks} = useSelector(messagesLinksSel);
   const dispatch = useDispatch();
   const location = useLocation().pathname;

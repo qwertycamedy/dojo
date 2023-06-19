@@ -6,19 +6,45 @@ import MyBtn from "../../../components/_UI/myBtn/MyBtn";
 import { useDispatch, useSelector } from "react-redux";
 import {
   authSel,
+  signUser,
   setConfirmPass,
   setIsSignUpM,
-  setLogin,
+  setEmail,
   setNickname,
   setPass,
   switchM,
+  setIsAuth,
 } from "../../../redux/slices/auth/authSlice";
+import { auth, createUserWithEmailAndPassword, updateProfile } from "../../../firebase";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { isSignUpM, login, pass, nickname, confirmPass } =
+  const { isSignUpM, email, pass, nickname, confirmPass } =
     useSelector(authSel);
+  const navigate = useNavigate();
+
+  const handleReg = () => {
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then(async ({ user }) => {
+        await updateProfile(user, {
+          displayName: nickname,
+        });
+        console.log(user);
+        const newUser = {
+          nickname: user.displayName,
+          email: user.displayName,
+          token: user.accessToken,
+          id: user.uid,
+        };
+        dispatch(signUser(newUser));
+        dispatch(setIsSignUpM(false));
+        dispatch(setIsAuth(true));
+        navigate("/profile");
+      })
+      .catch(err => alert(`при регистрации возникла ошибка: ${err}`));
+  };
 
   return (
     <MyModal title={"Sign Up"} isActive={isSignUpM} setIsActive={setIsSignUpM}>
@@ -28,10 +54,10 @@ const SignUp = () => {
         setValue={setNickname}
       />
       <MyInput
-        placeholder={"login"}
+        placeholder={"email"}
         type={"email"}
-        value={login}
-        setValue={setLogin}
+        value={email}
+        setValue={setEmail}
       />
       <MyInput
         placeholder={"password"}
@@ -51,9 +77,10 @@ const SignUp = () => {
             [cl.btn_dis]:
               nickname.length < 3 ||
               pass.length < 6 ||
-              login.length < 6 ||
+              email.length < 6 ||
               pass !== confirmPass,
           })}
+          onClick={handleReg}
         >
           Sign Up
         </MyBtn>

@@ -49,7 +49,7 @@ const CreatePost = () => {
       img: photoValue,
       date: formattedTimestamp,
       text: areaValue,
-      author: { name: authUser.name, img: authUser.img },
+      author: { name: authUser.nickname, img: authUser.img },
       likesCount: 0,
       isLiked: false,
     };

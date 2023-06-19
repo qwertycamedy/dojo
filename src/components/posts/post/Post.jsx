@@ -14,11 +14,11 @@ import {
   deletePost,
   likeDec,
   likeInc,
-  loadStatus,
   postsSel,
 } from "../../../redux/slices/posts/postsSlice";
 import clsx from "clsx";
 import MyActionMenu from "../../_UI/myActionMenu/MyActionMenu";
+import { loadStatus } from "../../../redux/loadStatus";
 
 const Post = ({
   id,
@@ -82,7 +82,7 @@ const Post = ({
   }, [likesLoadStatus, likesLoader]);
 
   const handleRemove = id => {
-    if (authUser.name === author.name) {
+    if (authUser.nickname === author.name) {
       dispatch(deletePost(id));
     }
   };

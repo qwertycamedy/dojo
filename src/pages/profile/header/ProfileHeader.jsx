@@ -7,12 +7,12 @@ import {
   profileHeaderSel,
   setIsStatusShorted,
 } from "../../../redux/slices/profile/profileHeaderSlice";
-import { authSel } from "../../../redux/slices/auth/authSlice";
+import { authSel, signOutUser } from "../../../redux/slices/auth/authSlice";
 import { FaUserCircle } from "react-icons/fa";
 import { RiSettings2Fill } from "react-icons/ri";
 import MyBtn from "../../../components/_UI/myBtn/MyBtn";
-import { Link } from "react-router-dom";
 import { setIsModalActive } from "../../../redux/slices/posts/postsSlice";
+import { auth } from "../../../firebase";
 
 const ProfileHeader = () => {
   const dispatch = useDispatch();
@@ -27,6 +27,11 @@ const ProfileHeader = () => {
     document.body.classList.add("overflow-h");
     dispatch(setIsModalActive(true));
   };
+
+  const handleSignOutUser = () => {
+    dispatch(signOutUser());
+    auth.signOut();
+  }
 
   return (
     <MySection classNames={cl.header}>
@@ -61,11 +66,9 @@ const ProfileHeader = () => {
           <MyBtn classNames={cl.create} onClick={handleToggleCreate}>
             Create Post
           </MyBtn>
-          <Link to="/settings">
-            <MyBtn classNames={cl.settings}>
+            <MyBtn classNames={cl.settings} onClick={handleSignOutUser}>
               <RiSettings2Fill />
             </MyBtn>
-          </Link>
         </div>
       </div>
     </MySection>

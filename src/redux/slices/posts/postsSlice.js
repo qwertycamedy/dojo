@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { loadStatus } from "../../loadStatus";
 
 const postsUrl = "https://6485fc1ca795d24810b78e08.mockapi.io/posts";
 
@@ -30,12 +31,6 @@ export const likeDec = createAsyncThunk("posts/likeDec", async updPost => {
   const res = await axios.put(`${postsUrl}/${updPost.id}`, updPost);
   return res.data;
 });
-
-export const loadStatus = {
-  LOADING: "loading",
-  SUCCESS: "success",
-  ERROR: "error",
-};
 
 const initialState = {
   posts: [],

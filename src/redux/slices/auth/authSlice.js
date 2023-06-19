@@ -4,17 +4,9 @@ const initialState = {
   isAuth: false,
   isSignInM: false,
   isSignUpM: false,
-  authUser: {
-    email: null,
-    token: null,
-    id: null,
-    nickname: null,
-    bg: null,
-    img: null,
-    status: null,
-  },
+  authUser: {},
 
-  login: "",
+  email: "",
   pass: "",
   nickname: "",
   confirmPass: "",
@@ -24,14 +16,17 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setIsAuth: (state, action) => {
+      state.isAuth = action.payload;
+    },
     setIsSignInM: (state, action) => {
       state.isSignInM = action.payload;
-      state.login = "";
+      state.email = "";
       state.pass = "";
     },
     setIsSignUpM: (state, action) => {
       state.isSignUpM = action.payload;
-      state.login = "";
+      state.email = "";
       state.pass = "";
       state.nickname = "";
       state.confirmPass = "";
@@ -39,14 +34,14 @@ const authSlice = createSlice({
     switchM: (state, action) => {
       state.isSignInM = action.payload.in;
       state.isSignUpM = action.payload.up;
-      state.login = "";
+      state.email = "";
       state.pass = "";
       state.nickname = "";
       state.confirmPass = "";
     },
 
-    setLogin: (state, action) => {
-      state.login = action.payload;
+    setEmail: (state, action) => {
+      state.email = action.payload;
     },
     setPass: (state, action) => {
       state.pass = action.payload;
@@ -57,17 +52,27 @@ const authSlice = createSlice({
     setConfirmPass: (state, action) => {
       state.confirmPass = action.payload;
     },
+    signUser: (state, action) => {
+      state.authUser = action.payload;
+    },
+    signOutUser: (state) => {
+      state.authUser = {};
+      state.isAuth = false;
+    }
   },
 });
 
 export const {
+  setIsAuth,
   setIsSignInM,
   setIsSignUpM,
   switchM,
   setConfirmPass,
-  setLogin,
+  setEmail,
   setNickname,
   setPass,
+  signUser,
+  signOutUser,
 } = authSlice.actions;
 
 export const authSel = state => state.auth;

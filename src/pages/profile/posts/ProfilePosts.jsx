@@ -3,7 +3,6 @@ import Posts from "../../../components/posts/Posts";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPosts,
-  loadStatus,
   postsSel,
 } from "../../../redux/slices/posts/postsSlice";
 import MySection from "../../../components/_UI/mySection/MySection";
@@ -19,6 +18,7 @@ import {
 import Sort from "../../../components/sort/Sort";
 import { FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
 import MyNotFound from "../../../components/_UI/myNotFound/MyNotFound";
+import { loadStatus } from "../../../redux/loadStatus";
 
 const ProfilePosts = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const ProfilePosts = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const myPosts = posts?.filter(post => post.author.name === authUser.name);
+  const myPosts = posts?.filter(post => post.author.name === authUser.nickname);
   const searchedPosts = myPosts?.filter(
     post =>
       post.title.toLowerCase().includes(searchDebValue.toLowerCase()) ||
