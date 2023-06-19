@@ -31,7 +31,6 @@ const SignUp = () => {
         await updateProfile(user, {
           displayName: nickname,
         });
-        console.log(user);
         const newUser = {
           nickname: user.displayName,
           email: user.displayName,

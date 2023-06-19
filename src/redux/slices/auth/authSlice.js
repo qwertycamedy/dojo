@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { loadStatus } from "../../loadStatus";
 
 const initialState = {
   isAuth: false,
+  authLoadStatus: loadStatus.LOADING,
   isSignInM: false,
   isSignUpM: false,
   authUser: {},
@@ -18,6 +20,9 @@ const authSlice = createSlice({
   reducers: {
     setIsAuth: (state, action) => {
       state.isAuth = action.payload;
+    },
+    setAuthLoadStatus: (state, action) => {
+      state.authLoadStatus = action.payload
     },
     setIsSignInM: (state, action) => {
       state.isSignInM = action.payload;
@@ -64,6 +69,7 @@ const authSlice = createSlice({
 
 export const {
   setIsAuth,
+  setAuthLoadStatus,
   setIsSignInM,
   setIsSignUpM,
   switchM,

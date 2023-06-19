@@ -6,15 +6,24 @@ import Messages from "./pages/messages/Messages";
 import Navbar from "./components/navbar/Navbar";
 import MessagesWindow from "./pages/messages/window/MessagesWindow";
 import { useDispatch, useSelector } from "react-redux";
-import { authSel, signOutUser, signUser } from "./redux/slices/auth/authSlice";
+import {
+  authSel,
+  setAuthLoadStatus,
+  setIsAuth,
+  signOutUser,
+  signUser,
+} from "./redux/slices/auth/authSlice";
 import Auth from "./pages/auth/Auth";
 import { auth, onAuthStateChanged } from "./firebase";
+import { loadStatus } from "./redux/loadStatus";
+import Loader from "./components/loader/Loader";
 
 const App = () => {
-  const { isAuth } = useSelector(authSel);
+  const { isAuth, authLoadStatus } = useSelector(authSel);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setAuthLoadStatus(loadStatus.LOADING));
     onAuthStateChanged(auth, userAuth => {
       if (userAuth) {
         dispatch(
@@ -25,8 +34,12 @@ const App = () => {
             id: userAuth.uid,
           })
         );
+        dispatch(setIsAuth(true));
+        dispatch(setAuthLoadStatus(loadStatus.SUCCESS));
       } else {
         dispatch(signOutUser());
+        auth.signOut();
+        dispatch(setAuthLoadStatus(loadStatus.SUCCESS));
       }
     });
   }, [dispatch]);
@@ -36,20 +49,26 @@ const App = () => {
       <Header />
 
       <main className="main">
-        <Routes>
-          {isAuth ? (
-            <>
-              <Route path="/" element={<Profile />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/messages/:id" element={<MessagesWindow />} />
-            </>
+        {
+          authLoadStatus === loadStatus.SUCCESS ? (
+            <Routes>
+              {isAuth ? (
+                <>
+                  <Route path="/" element={<Profile />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/messages" element={<Messages />} />
+                  <Route path="/messages/:id" element={<MessagesWindow />} />
+                </>
+              ) : (
+                <>
+                  <Route path="*" element={<Auth />} />
+                </>
+              )}
+            </Routes>
           ) : (
-            <>
-              <Route path="*" element={<Auth />} />
-            </>
-          )}
-        </Routes>
+            <Loader />
+          )
+        }
       </main>
 
       <Navbar />

@@ -26,7 +26,6 @@ const SignIn = () => {
   const handleLog = () => {
     signInWithEmailAndPassword(auth, email, pass)
       .then(async ({ user }) => {
-        console.log(user);
         const newUser = {
           nickname: user.displayName,
           email: user.displayName,
