@@ -27,7 +27,7 @@ const CreatePost = () => {
     useSelector(postsSel);
   const { authUser } = useSelector(authSel);
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     const timestamp = new Date();
     const formattedTimestamp = timestamp.toLocaleDateString("en-US", {
       day: "2-digit",
@@ -55,11 +55,12 @@ const CreatePost = () => {
 
     if (inputValue || photoValue || areaValue) {
       document.body.classList.remove("overflow-h");
-      dispatch(submitNewPost(newPost));
+      await dispatch(submitNewPost(newPost));
       dispatch(setIsModalActive(false));
       dispatch(setSortBy("desc"));
       dispatch(setSearchValue(""));
       dispatch(setSearchDebValue(""));
+      window.location.reload();
     }
   };
 
