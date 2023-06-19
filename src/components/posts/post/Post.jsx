@@ -12,9 +12,8 @@ import cl from "./Post.module.scss";
 import MyBtn from "../../_UI/myBtn/MyBtn";
 import {
   deletePost,
-  likeDec,
-  likeInc,
   postsSel,
+  toggleLike,
 } from "../../../redux/slices/posts/postsSlice";
 import clsx from "clsx";
 import MyActionMenu from "../../_UI/myActionMenu/MyActionMenu";
@@ -37,10 +36,10 @@ const Post = ({
   const [isLikesDis, setIsLikesDis] = useState(false);
   const [likesLoader, setLikesLoader] = useState("idle");
 
-  const handleLike = id => {
-    if (!isLiked) {
+  const handleLike = (id) => {
+    if (likesCount.includes(authUser.id)) {
       dispatch(
-        likeInc({
+        toggleLike({
           id,
           myId,
           author,
@@ -48,13 +47,12 @@ const Post = ({
           title,
           img,
           text,
-          likesCount: likesCount + 1,
-          isLiked: true,
+          likesCount: [...likesCount.filter(item => item !== authUser.id)],
         })
       );
     } else {
       dispatch(
-        likeDec({
+        toggleLike({
           id,
           myId,
           author,
@@ -62,8 +60,7 @@ const Post = ({
           title,
           img,
           text,
-          likesCount: likesCount - 1,
-          isLiked: false,
+          likesCount: [...likesCount, authUser.id],
         })
       );
     }
@@ -82,7 +79,7 @@ const Post = ({
   }, [likesLoadStatus, likesLoader]);
 
   const handleRemove = id => {
-      dispatch(deletePost(id));
+    dispatch(deletePost(id));
   };
 
   return (
@@ -121,7 +118,7 @@ const Post = ({
         <div className={cl.btns}>
           <MyBtn
             classNames={clsx(cl.like, {
-              [cl.true]: isLiked,
+              [cl.true]: likesCount.includes(authUser.id),
               [cl.dis]: isLikesDis,
             })}
             onClick={() => handleLike(id)}
@@ -133,12 +130,12 @@ const Post = ({
             ) : (
               <>
                 <FaHeart />
-                {likesCount > 10000 ? (
+                {likesCount.length > 10000 ? (
                   <span>10k+</span>
-                ) : likesCount > 1000 ? (
+                ) : likesCount.length > 1000 ? (
                   <span>1k+</span>
-                ) : likesCount > 0 ? (
-                  <span>{likesCount}</span>
+                ) : likesCount.length > 0 ? (
+                  <span>{likesCount.length}</span>
                 ) : (
                   ""
                 )}

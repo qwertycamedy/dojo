@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { loadStatus } from "../../loadStatus";
 import {
   addDoc,
@@ -7,10 +6,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../../../firebase";
-
-const postsUrl = "https://6485fc1ca795d24810b78e08.mockapi.io/posts";
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
@@ -38,23 +36,23 @@ export const submitNewPost = createAsyncThunk(
 export const deletePost = createAsyncThunk("posts/deletePost", async postId => {
   try {
     const postRef = doc(db, "posts", postId);
-
     await deleteDoc(postRef);
-
     return postId;
   } catch (err) {
     console.log(`ошибка удаления поста: ${err}`);
   }
 });
 
-export const likeInc = createAsyncThunk("posts/likeInc", async updPost => {
-  const res = await axios.put(`${postsUrl}/${updPost.id}`, updPost);
-  return res.data;
-});
+export const toggleLike = createAsyncThunk("posts/likeInc", async updPost => {
+  try {
+    const postRef = doc(db, "posts", updPost.id);
+    console.log(postRef, updPost)
 
-export const likeDec = createAsyncThunk("posts/likeDec", async updPost => {
-  const res = await axios.put(`${postsUrl}/${updPost.id}`, updPost);
-  return res.data;
+    await updateDoc(postRef, updPost)
+    return updPost;
+  } catch (err) {
+    console.log(`ошибка лайка: ${err}`);
+  }
 });
 
 const initialState = {
@@ -132,34 +130,20 @@ const postsSlice = createSlice({
       .addCase(deletePost.rejected, state => {
         state.postsLoadStatus = loadStatus.ERROR;
       })
-      //likeInc
-      .addCase(likeInc.pending, state => {
+      //toggleLike
+      .addCase(toggleLike.pending, state => {
         state.likesLoadStatus = loadStatus.LOADING;
       })
-      .addCase(likeInc.fulfilled, (state, action) => {
+      .addCase(toggleLike.fulfilled, (state, action) => {
         state.likesLoadStatus = loadStatus.SUCCESS;
 
         state.posts = state.posts.map(post =>
           post.id === action.payload.id ? action.payload : post
         );
       })
-      .addCase(likeInc.rejected, state => {
+      .addCase(toggleLike.rejected, state => {
         state.likesLoadStatus = loadStatus.ERROR;
       })
-      //likeDec
-      .addCase(likeDec.pending, state => {
-        state.likesLoadStatus = loadStatus.LOADING;
-      })
-      .addCase(likeDec.fulfilled, (state, action) => {
-        state.likesLoadStatus = loadStatus.SUCCESS;
-
-        state.posts = state.posts.map(post =>
-          post.id === action.payload.id ? action.payload : post
-        );
-      })
-      .addCase(likeDec.rejected, state => {
-        state.likesLoadStatus = loadStatus.ERROR;
-      });
   },
 });
 
