@@ -4,7 +4,7 @@ import cl from "./Posts.module.scss";
 import PostSceleton from "./post/PostSceleton";
 
 const Posts = ({ posts }) => {
-  const successPosts = posts.map(post => <Post {...post} key={post.id} />);
+  const successPosts = posts.map(post => <Post {...post} key={post.myId} />);
 
   const sceletons = [...new Array(6)].map((_, i) => <PostSceleton key={i} />);
 

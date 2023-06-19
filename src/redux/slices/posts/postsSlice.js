@@ -1,19 +1,32 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { loadStatus } from "../../loadStatus";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../../../firebase";
 
 const postsUrl = "https://6485fc1ca795d24810b78e08.mockapi.io/posts";
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const res = await axios.get(postsUrl);
-  return res.data;
+  try {
+    const res = await getDocs(collection(db, "posts"));
+    const newData = res.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+    console.log(res);
+    return newData;
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 export const submitNewPost = createAsyncThunk(
   "posts/submitNewPost",
   async newPost => {
-    const res = await axios.post(postsUrl, newPost);
-    return res.data;
+    try {
+      await addDoc(collection(db, "posts"), newPost);
+      return newPost;
+    } catch (err) {
+      console.error("Error adding post: ", err);
+    }
   }
 );
 
@@ -48,6 +61,9 @@ const postsSlice = createSlice({
   reducers: {
     setIsModalActive: (state, action) => {
       state.isModalActive = action.payload;
+      state.inputValue = '';
+      state.photoValue = '';
+      state.areaValue = '';
     },
 
     setInputValue: (state, action) => {
@@ -111,7 +127,7 @@ const postsSlice = createSlice({
       .addCase(likeInc.fulfilled, (state, action) => {
         state.likesLoadStatus = loadStatus.SUCCESS;
 
-        state.posts = state.posts.map((post) =>
+        state.posts = state.posts.map(post =>
           post.id === action.payload.id ? action.payload : post
         );
       })
@@ -125,7 +141,7 @@ const postsSlice = createSlice({
       .addCase(likeDec.fulfilled, (state, action) => {
         state.likesLoadStatus = loadStatus.SUCCESS;
 
-        state.posts = state.posts.map((post) =>
+        state.posts = state.posts.map(post =>
           post.id === action.payload.id ? action.payload : post
         );
       })

@@ -41,17 +41,16 @@ const CreatePost = () => {
 
     const newPost = {
       myId: String(
-        posts.length < 9
-          ? `0${Number(posts[posts.length - 1].id) + 1}`
-          : Number(posts[posts.length - 1].id) + 1
+        posts && posts.length < 9
+          ? `0${Number(posts.length)}`
+          : Number(posts.length)
       ),
       title: inputValue,
       img: photoValue,
       date: formattedTimestamp,
       text: areaValue,
-      author: { name: authUser.nickname, img: authUser.img },
-      likesCount: 0,
-      isLiked: false,
+      author: { name: authUser.nickname, img: authUser.img || "" },
+      likesCount: [],
     };
 
     if (inputValue || photoValue || areaValue) {
