@@ -7,11 +7,11 @@ import { authSel } from "../../../redux/slices/auth/authSlice";
 import Search from "../../../components/search/Search";
 import cl from "./ProfilePosts.module.scss";
 import {
-  profilePostFiltersSel,
   setSearchValue,
   setSearchDebValue,
   setSortBy,
-} from "../../../redux/slices/profile/profilePostFiltersSlice";
+  postsFiltersSel,
+} from "../../../redux/slices/posts/postsFiltersSlice";
 import Sort from "../../../components/sort/Sort";
 import { FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
 import MyNotFound from "../../../components/_UI/myNotFound/MyNotFound";
@@ -21,29 +21,13 @@ const ProfilePosts = () => {
   const dispatch = useDispatch();
   const { posts, postsLoadStatus } = useSelector(postsSel);
   const { authUser } = useSelector(authSel);
-  const { searchValue, searchDebValue, sortBy, sortOptions } = useSelector(
-    profilePostFiltersSel
-  );
+  const { searchValue, sortBy, sortOptions } = useSelector(postsFiltersSel);
 
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
   const myPosts = posts?.filter(post => post.author.id === authUser.id);
-
-  const searchedPosts = myPosts?.filter(
-    post =>
-      post.title.toLowerCase().includes(searchDebValue.toLowerCase()) ||
-      post.date.toLowerCase().includes(searchDebValue.toLowerCase()) ||
-      post.text.toLowerCase().includes(searchDebValue.toLowerCase())
-  );
-  const sortedPosts = searchedPosts && [...searchedPosts];
-
-  if (sortBy === "asc") {
-    sortedPosts?.sort((a, b) => String(a.myId).localeCompare(String(b.myId)));
-  } else if (sortBy === "desc") {
-    sortedPosts?.sort((a, b) => String(b.myId).localeCompare(String(a.myId)));
-  }
 
   return (
     <MySection classNames={cl.outer}>
@@ -65,15 +49,12 @@ const ProfilePosts = () => {
         />
       ) : postsLoadStatus === loadStatus.LOADING ? (
         <Posts posts={[]} />
-      ) : sortedPosts?.length ? (
-        <Posts posts={sortedPosts} />
-      ) : !myPosts.length ? (
-        <MyNotFound title={":/"} text={"Вы еще не создали ни одного поста"} />
+      ) : myPosts?.length ? (
+        <Posts posts={myPosts} />
       ) : (
-        <MyNotFound
-          title={":|"}
-          text={"Идет загрузка постов либо посты не найдены"}
-        />
+        !myPosts.length && (
+          <MyNotFound title={":/"} text={"Вы еще не создали ни одного поста"} />
+        )
       )}
     </MySection>
   );

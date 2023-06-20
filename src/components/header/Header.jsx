@@ -17,7 +17,7 @@ const Header = () => {
 
   useEffect(() => {
     if (location === "/") {
-      dispatch(setTitle("HOME"));
+      dispatch(setTitle("FEED"));
     } else if (location.includes(`messages/`)) {
       const messagesLink = messagesLinks.find(
         obj => obj.id === parseInt(location.split("/").pop(), 10)

@@ -19,7 +19,7 @@ import {
   setSearchValue,
   setSearchDebValue,
   setSortBy,
-} from "../../../redux/slices/profile/profilePostFiltersSlice";
+} from "../../../redux/slices/posts/postsFiltersSlice";
 
 const CreatePost = () => {
   const dispatch = useDispatch();

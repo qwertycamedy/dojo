@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   searchValue: "",
   searchDebValue: "",
-  sortBy: 'desc',
+  sortBy: "desc",
   sortOptions: [
     {
       value: "asc",
@@ -16,7 +16,7 @@ const initialState = {
   ],
 };
 
-const profilePostFiltersSlice = createSlice({
+const postsFiltersSlice = createSlice({
   name: "profilePostFilters",
   initialState,
   reducers: {
@@ -26,14 +26,15 @@ const profilePostFiltersSlice = createSlice({
     setSearchDebValue: (state, action) => {
       state.searchDebValue = action.payload;
     },
-    setSortBy: (state,action)=> {
-        state.sortBy = action.payload;
-    }
+    setSortBy: (state, action) => {
+      state.sortBy = action.payload;
+    },
   },
 });
 
-export const { setSearchValue, setSearchDebValue, setSortBy } = profilePostFiltersSlice.actions;
+export const { setSearchValue, setSearchDebValue, setSortBy } =
+  postsFiltersSlice.actions;
 
-export const profilePostFiltersSel = state => state.profilePostFilters;
+export const postsFiltersSel = state => state.postsFilters;
 
-export default profilePostFiltersSlice.reducer;
+export default postsFiltersSlice.reducer;

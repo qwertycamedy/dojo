@@ -10,7 +10,7 @@ const Navbar = () => {
         <ul className={cl.menu}>
           <li className={cl.menu_item}>
             <NavLink className={cl.menu_link} to="/">
-              Home
+              Feed
             </NavLink>
           </li>
           <li className={cl.menu_item}>

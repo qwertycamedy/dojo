@@ -17,6 +17,7 @@ import Auth from "./pages/auth/Auth";
 import { auth, onAuthStateChanged } from "./firebase";
 import { loadStatus } from "./redux/loadStatus";
 import Loader from "./components/loader/Loader";
+import Feed from "./pages/feed/Feed";
 
 const App = () => {
   const { isAuth, authLoadStatus } = useSelector(authSel);
@@ -54,7 +55,7 @@ const App = () => {
             <Routes>
               {isAuth ? (
                 <>
-                  <Route path="/" element={<Profile />} />
+                  <Route path="/" element={<Feed />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/messages" element={<Messages />} />
                   <Route path="/messages/:id" element={<MessagesWindow />} />
