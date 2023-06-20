@@ -46,8 +46,6 @@ export const deletePost = createAsyncThunk("posts/deletePost", async postId => {
 export const toggleLike = createAsyncThunk("posts/likeInc", async updPost => {
   try {
     const postRef = doc(db, "posts", updPost.id);
-    console.log(postRef, updPost)
-
     await updateDoc(postRef, updPost)
     return updPost;
   } catch (err) {

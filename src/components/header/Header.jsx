@@ -10,8 +10,8 @@ import { messagesLinksSel } from "../../redux/slices/messages/messagesLinksSlice
 
 const Header = () => {
   const { title } = useSelector(headerSel);
-  const { authUser } = useSelector(authSel);
-  const {messagesLinks} = useSelector(messagesLinksSel);
+  const { authUser, isAuth } = useSelector(authSel);
+  const { messagesLinks } = useSelector(messagesLinksSel);
   const dispatch = useDispatch();
   const location = useLocation().pathname;
 
@@ -19,12 +19,17 @@ const Header = () => {
     if (location === "/") {
       dispatch(setTitle("HOME"));
     } else if (location.includes(`messages/`)) {
-      const messagesLink = messagesLinks.find(obj => obj.id === parseInt(location.split("/").pop(), 10));
-      dispatch(setTitle(messagesLink.user.name.split(' ')[0]));
+      const messagesLink = messagesLinks.find(
+        obj => obj.id === parseInt(location.split("/").pop(), 10)
+      );
+      dispatch(setTitle(messagesLink.user.name.split(" ")[0]));
     } else {
       dispatch(setTitle(location.substring(1)));
     }
-  }, [dispatch, location, messagesLinks]);
+    if (!isAuth) {
+      dispatch(setTitle("Not Auth"));
+    }
+  }, [dispatch, location, messagesLinks, isAuth]);
 
   return (
     <header className={cl.header}>
@@ -35,7 +40,11 @@ const Header = () => {
           </Link>
           <h1 className={cl.header__title + " title-1"}>{title}</h1>
           <NavLink className={cl.header__profile} to="/profile">
-            {authUser.img ? <img src={authUser.img} alt={authUser.name} /> : <FaUserCircle />}
+            {authUser.img ? (
+              <img src={authUser.img} alt={authUser.name} />
+            ) : (
+              <FaUserCircle />
+            )}
           </NavLink>
         </div>
       </div>

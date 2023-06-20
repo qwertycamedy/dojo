@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import Posts from "../../../components/posts/Posts";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchPosts,
-  postsSel,
-} from "../../../redux/slices/posts/postsSlice";
+import { fetchPosts, postsSel } from "../../../redux/slices/posts/postsSlice";
 import MySection from "../../../components/_UI/mySection/MySection";
 import { authSel } from "../../../redux/slices/auth/authSlice";
 import Search from "../../../components/search/Search";
@@ -32,7 +29,8 @@ const ProfilePosts = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const myPosts = posts?.filter(post => post.author.name === authUser.nickname);
+  const myPosts = posts?.filter(post => post.author.id === authUser.id);
+
   const searchedPosts = myPosts?.filter(
     post =>
       post.title.toLowerCase().includes(searchDebValue.toLowerCase()) ||
@@ -46,7 +44,6 @@ const ProfilePosts = () => {
   } else if (sortBy === "desc") {
     sortedPosts?.sort((a, b) => String(b.myId).localeCompare(String(a.myId)));
   }
-
 
   return (
     <MySection classNames={cl.outer}>
@@ -70,6 +67,8 @@ const ProfilePosts = () => {
         <Posts posts={[]} />
       ) : sortedPosts?.length ? (
         <Posts posts={sortedPosts} />
+      ) : !myPosts.length ? (
+        <MyNotFound title={":/"} text={"Вы еще не создали ни одного поста"} />
       ) : (
         <MyNotFound
           title={":|"}

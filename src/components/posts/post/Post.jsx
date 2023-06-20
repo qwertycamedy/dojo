@@ -97,7 +97,7 @@ const Post = ({
           </div>
         </div>
 
-        {authUser.nickname === author.name && (
+        {authUser.id === author.id && (
           <MyActionMenu>
             <MyBtn onClick={() => handleRemove(id)}>Remove post</MyBtn>
           </MyActionMenu>

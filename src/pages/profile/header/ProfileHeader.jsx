@@ -9,7 +9,7 @@ import {
 } from "../../../redux/slices/profile/profileHeaderSlice";
 import { authSel, signOutUser } from "../../../redux/slices/auth/authSlice";
 import { FaUserCircle } from "react-icons/fa";
-import { RiSettings2Fill } from "react-icons/ri";
+import { GoSignOut } from "react-icons/go";
 import MyBtn from "../../../components/_UI/myBtn/MyBtn";
 import { setIsModalActive } from "../../../redux/slices/posts/postsSlice";
 import { auth } from "../../../firebase";
@@ -67,7 +67,7 @@ const ProfileHeader = () => {
             Create Post
           </MyBtn>
             <MyBtn classNames={cl.settings} onClick={handleSignOutUser}>
-              <RiSettings2Fill />
+              <GoSignOut />
             </MyBtn>
         </div>
       </div>
