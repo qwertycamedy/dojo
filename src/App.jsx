@@ -18,7 +18,7 @@ import { auth, onAuthStateChanged } from "./firebase";
 import { loadStatus } from "./redux/loadStatus";
 import Loader from "./components/loader/Loader";
 import Feed from "./pages/feed/Feed";
-import { setSearchDebValue, setSearchValue, setSortBy } from "./redux/slices/posts/postsFiltersSlice";
+import { defaultFilter } from "./redux/slices/posts/postsFiltersSlice";
 
 const App = () => {
   const { isAuth, authLoadStatus } = useSelector(authSel);
@@ -48,36 +48,32 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(setSearchDebValue(''));
-    dispatch(setSearchValue(''));
-    dispatch(setSortBy('desc'));
-  }, [dispatch, location])
+    dispatch(defaultFilter());
+  }, [dispatch, location]);
 
   return (
     <div className="app">
       <Header />
 
       <main className="main">
-        {
-          authLoadStatus === loadStatus.SUCCESS ? (
-            <Routes>
-              {isAuth ? (
-                <>
-                  <Route path="/" element={<Feed />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/messages" element={<Messages />} />
-                  <Route path="/messages/:id" element={<MessagesWindow />} />
-                </>
-              ) : (
-                <>
-                  <Route path="*" element={<Auth />} />
-                </>
-              )}
-            </Routes>
-          ) : (
-            <Loader />
-          )
-        }
+        {authLoadStatus === loadStatus.SUCCESS ? (
+          <Routes>
+            {isAuth ? (
+              <>
+                <Route path="/" element={<Feed />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/messages" element={<Messages />} />
+                <Route path="/messages/:id" element={<MessagesWindow />} />
+              </>
+            ) : (
+              <>
+                <Route path="*" element={<Auth />} />
+              </>
+            )}
+          </Routes>
+        ) : (
+          <Loader />
+        )}
       </main>
 
       <Navbar />

@@ -29,10 +29,15 @@ const postsFiltersSlice = createSlice({
     setSortBy: (state, action) => {
       state.sortBy = action.payload;
     },
+    defaultFilter: (state) => {
+      state.searchDebValue = '';
+      state.searchValue = '';
+      state.sortBy = 'desc';
+    }
   },
 });
 
-export const { setSearchValue, setSearchDebValue, setSortBy } =
+export const { setSearchValue, setSearchDebValue, setSortBy, defaultFilter } =
   postsFiltersSlice.actions;
 
 export const postsFiltersSel = state => state.postsFilters;
