@@ -9,10 +9,11 @@ import { headerSel, setTitle } from "../../redux/slices/header/headerSlice";
 import { authSel } from "../../redux/slices/auth/authSlice";
 import MyBtn from "../_UI/myBtn/MyBtn";
 import { messagesSel } from "../../redux/slices/messages/messagesSlice";
+import { loadStatus } from "../../redux/loadStatus";
 
 const Header = () => {
   const { title } = useSelector(headerSel);
-  const { authUser, isAuth } = useSelector(authSel);
+  const { authUser, isAuth, authLoadStatus } = useSelector(authSel);
   const { chats } = useSelector(messagesSel);
   const dispatch = useDispatch();
   const location = useLocation().pathname;
@@ -32,7 +33,10 @@ const Header = () => {
     if (!isAuth) {
       dispatch(setTitle("Not Auth"));
     }
-  }, [dispatch, location, chats, isAuth]);
+    if(authLoadStatus === loadStatus.LOADING) {
+      dispatch(setTitle('Loading'))
+    }
+  }, [dispatch, location, chats, isAuth, authLoadStatus]);
 
   return (
     <header className={cl.header}>

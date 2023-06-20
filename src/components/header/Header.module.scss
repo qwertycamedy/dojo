@@ -37,6 +37,14 @@
   }
 }
 
+.title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 200px;
+  text-transform: uppercase;
+}
+
 .profile {
   width: 32px;
   height: 32px;
