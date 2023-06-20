@@ -19,6 +19,7 @@ import { loadStatus } from "./redux/loadStatus";
 import Loader from "./components/loader/Loader";
 import Feed from "./pages/feed/Feed";
 import { defaultFilter } from "./redux/slices/posts/postsFiltersSlice";
+import Dudes from "./pages/dudes/Dudes";
 
 const App = () => {
   const { isAuth, authLoadStatus } = useSelector(authSel);
@@ -61,9 +62,10 @@ const App = () => {
             {isAuth ? (
               <>
                 <Route path="/" element={<Feed />} />
-                <Route path="/profile" element={<Profile />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/messages/:id" element={<MessagesWindow />} />
+                <Route path="/dudes" element={<Dudes />} />
+                <Route path="/profile" element={<Profile />} />
               </>
             ) : (
               <>
