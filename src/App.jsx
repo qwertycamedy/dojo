@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "./components/header/Header";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Profile from "./pages/profile/Profile";
 import Messages from "./pages/messages/Messages";
 import Navbar from "./components/navbar/Navbar";
@@ -18,10 +18,12 @@ import { auth, onAuthStateChanged } from "./firebase";
 import { loadStatus } from "./redux/loadStatus";
 import Loader from "./components/loader/Loader";
 import Feed from "./pages/feed/Feed";
+import { setSearchDebValue, setSearchValue, setSortBy } from "./redux/slices/posts/postsFiltersSlice";
 
 const App = () => {
   const { isAuth, authLoadStatus } = useSelector(authSel);
   const dispatch = useDispatch();
+  const location = useLocation().pathname;
 
   useEffect(() => {
     dispatch(setAuthLoadStatus(loadStatus.LOADING));
@@ -44,6 +46,12 @@ const App = () => {
       }
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setSearchDebValue(''));
+    dispatch(setSearchValue(''));
+    dispatch(setSortBy('desc'));
+  }, [dispatch, location])
 
   return (
     <div className="app">
