@@ -1,0 +1,10 @@
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--black);
+    box-shadow: var(--shadow);
+    border-radius: 15px;
+}
