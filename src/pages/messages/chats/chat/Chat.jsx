@@ -1,9 +1,9 @@
 import React from "react";
-import cl from "./MessagesLink.module.scss";
+import cl from "./Chat.module.scss";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const MessagesLink = ({ id, user, lastMessage }) => {
+const Chat = ({ id, user, lastMessage }) => {
   return (
     <Link className={cl.link} to={`/messages/${id}`}>
       {user.img ? (
@@ -22,4 +22,4 @@ const MessagesLink = ({ id, user, lastMessage }) => {
   );
 };
 
-export default MessagesLink;
+export default Chat;

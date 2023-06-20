@@ -4,8 +4,7 @@ import header from "./slices/header/headerSlice";
 import posts from "./slices/posts/postsSlice";
 import postsFilters from "./slices/posts/postsFiltersSlice";
 import profileHeader from "./slices/profile/profileHeaderSlice";
-import messagesLinks from "./slices/messages/messagesLinksSlice";
-import messagesWindow from "./slices/messages/messagesWindowSlice";
+import messages from './slices/messages/messagesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -14,7 +13,6 @@ export const store = configureStore({
     posts,
     postsFilters,
     profileHeader,
-    messagesLinks,
-    messagesWindow,
+    messages
   },
 });

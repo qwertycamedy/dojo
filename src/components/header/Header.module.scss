@@ -7,28 +7,41 @@
   border-radius: 0 0 15px 15px;
   box-shadow: var(--shadow);
   z-index: 10;
-  &__inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 0;
-  }
+}
 
-  &__logo {
-    width: 36px;
-    height: 36px;
-    & img {
-        width: inherit;
-        height: inherit;
-    }
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  & img {
+      width: inherit;
+      height: inherit;
   }
-  
-  &__profile {
-    width: 32px;
-    height: 32px;
-    & svg {
-        width: inherit;
-        height: inherit;
-    }
+}
+
+.back {
+  background: var(--gray);
+  transition: background .2s linear;
+  &:hover {
+    background: var(--blue);
+  }
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.profile {
+  width: 32px;
+  height: 32px;
+  & svg {
+      width: inherit;
+      height: inherit;
   }
 }

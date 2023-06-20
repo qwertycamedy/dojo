@@ -1,25 +1,28 @@
 import React, { useEffect } from "react";
 import cl from "./Header.module.scss";
 import logoImg from "../../assets/img/img.svg";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import { IoChevronBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { headerSel, setTitle } from "../../redux/slices/header/headerSlice";
 import { authSel } from "../../redux/slices/auth/authSlice";
-import { messagesLinksSel } from "../../redux/slices/messages/messagesLinksSlice";
+import MyBtn from "../_UI/myBtn/MyBtn";
+import { messagesSel } from "../../redux/slices/messages/messagesSlice";
 
 const Header = () => {
   const { title } = useSelector(headerSel);
   const { authUser, isAuth } = useSelector(authSel);
-  const { messagesLinks } = useSelector(messagesLinksSel);
+  const { chats } = useSelector(messagesSel);
   const dispatch = useDispatch();
   const location = useLocation().pathname;
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location === "/") {
       dispatch(setTitle("FEED"));
     } else if (location.includes(`messages/`)) {
-      const messagesLink = messagesLinks.find(
+      const messagesLink = chats.find(
         obj => obj.id === parseInt(location.split("/").pop(), 10)
       );
       dispatch(setTitle(messagesLink.user.name.split(" ")[0]));
@@ -29,17 +32,23 @@ const Header = () => {
     if (!isAuth) {
       dispatch(setTitle("Not Auth"));
     }
-  }, [dispatch, location, messagesLinks, isAuth]);
+  }, [dispatch, location, chats, isAuth]);
 
   return (
     <header className={cl.header}>
       <div className="container">
-        <div className={cl.header__inner}>
-          <Link className={cl.header__logo} to="/">
-            <img src={logoImg} alt="DOJO" />
-          </Link>
-          <h1 className={cl.header__title + " title-1"}>{title}</h1>
-          <NavLink className={cl.header__profile} to="/profile">
+        <div className={cl.inner}>
+          {!location.includes("messages/") ? (
+            <Link className={cl.logo} to="/">
+              <img src={logoImg} alt="DOJO" />
+            </Link>
+          ) : (
+            <MyBtn classNames={cl.back} onClick={() => navigate(-1)}>
+              <IoChevronBack />
+            </MyBtn>
+          )}
+          <h1 className={cl.title + " title-1"}>{title}</h1>
+          <NavLink className={cl.profile} to="/profile">
             {authUser.img ? (
               <img src={authUser.img} alt={authUser.name} />
             ) : (

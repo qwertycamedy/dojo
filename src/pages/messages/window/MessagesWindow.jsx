@@ -4,13 +4,13 @@ import cl from "./MessagesWindow.module.scss";
 import MyInput from "../../../components/_UI/myInput/MyInput";
 import MyBtn from "../../../components/_UI/myBtn/MyBtn";
 import { LuSend } from "react-icons/lu";
-import { messagesWindowSel } from "../../../redux/slices/messages/messagesWindowSlice";
 import { useSelector } from "react-redux";
 import { authSel } from "../../../redux/slices/auth/authSlice";
 import clsx from "clsx";
+import { messagesSel } from "../../../redux/slices/messages/messagesSlice";
 
 const MessagesWindow = () => {
-  const { messages } = useSelector(messagesWindowSel);
+  const { messages } = useSelector(messagesSel);
   const { authUser } = useSelector(authSel);
 
   return (
