@@ -16,8 +16,8 @@ const initialState = {
   ],
 };
 
-const postsFiltersSlice = createSlice({
-  name: "profilePostFilters",
+const filtersSlice = createSlice({
+  name: "filters",
   initialState,
   reducers: {
     setSearchValue: (state, action) => {
@@ -38,8 +38,8 @@ const postsFiltersSlice = createSlice({
 });
 
 export const { setSearchValue, setSearchDebValue, setSortBy, defaultFilter } =
-  postsFiltersSlice.actions;
+  filtersSlice.actions;
 
-export const postsFiltersSel = state => state.postsFilters;
+export const filtersSel = state => state.filters;
 
-export default postsFiltersSlice.reducer;
+export default filtersSlice.reducer;

@@ -18,7 +18,7 @@ import { auth, onAuthStateChanged } from "./firebase";
 import { loadStatus } from "./redux/loadStatus";
 import Loader from "./components/loader/Loader";
 import Feed from "./pages/feed/Feed";
-import { defaultFilter } from "./redux/slices/posts/postsFiltersSlice";
+import { defaultFilter } from "./redux/slices/filters/filtersSlice";
 import Dudes from "./pages/dudes/Dudes";
 import NotFound from "./pages/notFound/NotFound";
 

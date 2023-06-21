@@ -7,15 +7,13 @@ import { loadStatus } from "../../../redux/loadStatus";
 import MyNotFound from "../../../components/_UI/myNotFound/MyNotFound";
 import Posts from "../../../components/posts/Posts";
 import Search from "../../../components/search/Search";
-import {
-  postsFiltersSel,
+import { filtersSel,
   setSearchDebValue,
-  setSearchValue,
-} from "../../../redux/slices/posts/postsFiltersSlice";
+  setSearchValue, } from "../../../redux/slices/filters/filtersSlice";
 
 const FeedPosts = () => {
   const { posts, postsLoadStatus } = useSelector(postsSel);
-  const { searchValue, } = useSelector(postsFiltersSel);
+  const { searchValue, } = useSelector(filtersSel);
   const dispatch = useDispatch();
 
   useEffect(() => {

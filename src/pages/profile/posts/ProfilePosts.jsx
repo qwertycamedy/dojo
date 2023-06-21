@@ -6,22 +6,20 @@ import MySection from "../../../components/_UI/mySection/MySection";
 import { authSel } from "../../../redux/slices/auth/authSlice";
 import Search from "../../../components/search/Search";
 import cl from "./ProfilePosts.module.scss";
-import {
-  setSearchValue,
-  setSearchDebValue,
-  setSortBy,
-  postsFiltersSel,
-} from "../../../redux/slices/posts/postsFiltersSlice";
 import Sort from "../../../components/sort/Sort";
 import { FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
 import MyNotFound from "../../../components/_UI/myNotFound/MyNotFound";
 import { loadStatus } from "../../../redux/loadStatus";
+import { 
+  setSearchValue,
+  setSearchDebValue,
+  setSortBy,filtersSel } from "../../../redux/slices/filters/filtersSlice";
 
 const ProfilePosts = () => {
   const dispatch = useDispatch();
   const { posts, postsLoadStatus } = useSelector(postsSel);
   const { authUser } = useSelector(authSel);
-  const { searchValue, sortBy, sortOptions } = useSelector(postsFiltersSel);
+  const { searchValue, sortBy, sortOptions } = useSelector(filtersSel);
 
   useEffect(() => {
     dispatch(fetchPosts());

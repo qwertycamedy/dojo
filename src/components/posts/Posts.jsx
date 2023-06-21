@@ -3,14 +3,14 @@ import Post from "./post/Post";
 import cl from "./Posts.module.scss";
 import PostSceleton from "./post/PostSceleton";
 import { useSelector } from "react-redux";
-import { postsFiltersSel } from "../../redux/slices/posts/postsFiltersSlice";
 import MyNotFound from "../_UI/myNotFound/MyNotFound";
 import { postsSel } from "../../redux/slices/posts/postsSlice";
 import { loadStatus } from "../../redux/loadStatus";
+import { filtersSel } from "../../redux/slices/filters/filtersSlice";
 
 const Posts = ({ posts }) => {
   const { postsLoadStatus } = useSelector(postsSel);
-  const { searchDebValue, sortBy } = useSelector(postsFiltersSel);
+  const { searchDebValue, sortBy } = useSelector(filtersSel);
 
   const searchedPosts = posts?.filter(
     post =>

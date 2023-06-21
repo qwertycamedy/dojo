@@ -19,11 +19,11 @@ import {
   setSearchValue,
   setSearchDebValue,
   setSortBy,
-} from "../../../redux/slices/posts/postsFiltersSlice";
+} from "../../../redux/slices/filters/filtersSlice";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
-  const { posts, isModalActive, inputValue, photoValue, areaValue } =
+  const { isModalActive, inputValue, photoValue, areaValue } =
     useSelector(postsSel);
   const { authUser } = useSelector(authSel);
 
@@ -41,9 +41,7 @@ const CreatePost = () => {
 
     const newPost = {
       myId: String(
-        posts && posts.length < 9
-          ? `0${Number(posts.length)}`
-          : Number(posts.length)
+        new Date().getTime()
       ),
       title: inputValue,
       img: photoValue,
