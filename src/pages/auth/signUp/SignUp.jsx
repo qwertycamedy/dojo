@@ -15,9 +15,15 @@ import {
   switchM,
   setIsAuth,
 } from "../../../redux/slices/auth/authSlice";
-import { auth, createUserWithEmailAndPassword, updateProfile } from "../../../firebase";
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  db,
+  updateProfile,
+} from "../../../firebase";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -37,6 +43,8 @@ const SignUp = () => {
           token: user.accessToken,
           id: user.uid,
         };
+        const newDude = { id: user.uid, nickname: user.displayName };
+        await addDoc(collection(db, "dudes"), newDude);
         dispatch(signUser(newUser));
         dispatch(setIsSignUpM(false));
         dispatch(setIsAuth(true));
