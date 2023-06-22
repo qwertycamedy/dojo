@@ -18,6 +18,7 @@ import {
 import clsx from "clsx";
 import MyActionMenu from "../../_UI/myActionMenu/MyActionMenu";
 import { loadStatus } from "../../../redux/loadStatus";
+import { Link } from "react-router-dom";
 
 const Post = ({
   id,
@@ -36,7 +37,7 @@ const Post = ({
   const [isLikesDis, setIsLikesDis] = useState(false);
   const [likesLoader, setLikesLoader] = useState("idle");
 
-  const handleLike = (id) => {
+  const handleLike = id => {
     if (likesCount.includes(authUser.id)) {
       dispatch(
         toggleLike({
@@ -85,22 +86,45 @@ const Post = ({
   return (
     <div className={cl.post}>
       <div className={cl.header}>
-        <div className={cl.user}>
-          {author.img ? (
-            <img className={cl.user_img} src={author.img} alt="DOGO user img" />
-          ) : (
-            <FaUserCircle className={cl.user_img} />
-          )}
-          <div className={cl.user_info}>
-            <h3 className={cl.user_name + " title-3"}>{author.name}</h3>
-            <p className={cl.user_date}>{date}</p>
-          </div>
-        </div>
-
-        {authUser.id === author.id && (
-          <MyActionMenu>
-            <MyBtn onClick={() => handleRemove(id)}>Remove post</MyBtn>
-          </MyActionMenu>
+        {authUser.id !== author.id ? (
+          <Link className={cl.link} to={`dudes/${author.name}`}>
+            <div className={cl.user}>
+              {author.img ? (
+                <img
+                  className={cl.user_img}
+                  src={author.img}
+                  alt="DOGO user img"
+                />
+              ) : (
+                <FaUserCircle className={cl.user_img} />
+              )}
+              <div className={cl.user_info}>
+                <h3 className={cl.user_name + " title-3"}>{author.name}</h3>
+                <p className={cl.user_date}>{date}</p>
+              </div>
+            </div>
+          </Link>
+        ) : (
+          <>
+            <div className={cl.user}>
+              {author.img ? (
+                <img
+                  className={cl.user_img}
+                  src={author.img}
+                  alt="DOGO user img"
+                />
+              ) : (
+                <FaUserCircle className={cl.user_img} />
+              )}
+              <div className={cl.user_info}>
+                <h3 className={cl.user_name + " title-3"}>{author.name}</h3>
+                <p className={cl.user_date}>{date}</p>
+              </div>
+            </div>
+            <MyActionMenu>
+              <MyBtn onClick={() => handleRemove(id)}>Remove post</MyBtn>
+            </MyActionMenu>
+          </>
         )}
       </div>
 

@@ -16,7 +16,14 @@
     align-items: center;
     justify-content: space-between;
 }
-
+.link {
+        text-decoration: underline transparent;
+    &:hover {
+        .user_name {
+            text-decoration: underline currentColor;
+        }
+    }
+}
 .user {
     display: flex;
     align-items: center;
@@ -24,6 +31,10 @@
     &_img {
         width: 40px;
         height: 40px;
+    }
+    &_name {
+        text-decoration: underline transparent;
+        transition: text-decoration .2s linear;
     }
 }
 

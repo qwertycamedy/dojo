@@ -10,11 +10,13 @@ import { authSel } from "../../redux/slices/auth/authSlice";
 import MyBtn from "../_UI/myBtn/MyBtn";
 import { messagesSel } from "../../redux/slices/messages/messagesSlice";
 import { loadStatus } from "../../redux/loadStatus";
+import { dudeSel } from "../../redux/slices/dude/dudeSlice";
 
 const Header = () => {
   const { title } = useSelector(headerSel);
   const { authUser, isAuth, authLoadStatus } = useSelector(authSel);
   const { chats } = useSelector(messagesSel);
+  const { dude } = useSelector(dudeSel);
   const dispatch = useDispatch();
   const location = useLocation().pathname;
   const navigate = useNavigate();
@@ -23,20 +25,19 @@ const Header = () => {
     if (location === "/") {
       dispatch(setTitle("FEED"));
     } else if (location.includes(`messages/`)) {
-      const messagesLink = chats.find(
-        obj => obj.id === parseInt(location.split("/").pop(), 10)
-      );
-      dispatch(setTitle(messagesLink.user.name.split(" ")[0]));
+      dispatch(setTitle(dude.nickname));
+    } else if (location.includes(`dudes/`)) {
+      dispatch(setTitle("DUDE"));
     } else {
       dispatch(setTitle(location.substring(1)));
     }
     if (!isAuth) {
       dispatch(setTitle("Not Auth"));
     }
-    if(authLoadStatus === loadStatus.LOADING) {
-      dispatch(setTitle('Loading'))
+    if (authLoadStatus === loadStatus.LOADING) {
+      dispatch(setTitle("Loading"));
     }
-  }, [dispatch, location, chats, isAuth, authLoadStatus]);
+  }, [dispatch, location, chats, dude, isAuth, authLoadStatus]);
 
   return (
     <header className={cl.header}>

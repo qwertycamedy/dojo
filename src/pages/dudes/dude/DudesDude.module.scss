@@ -1,0 +1,55 @@
+.dude {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 15px;
+  background: var(--black);
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  text-decoration: underline transparent;
+  transition: transform .2s linear;
+  &:hover {
+    transform: scale(1.01);
+
+    .name {
+      text-decoration: underline var(--white);
+    }
+  }
+  @media(min-width: 500px) {
+      height: max-content;
+  }
+}
+
+.img {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 30px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.name {
+    text-decoration: underline transparent;
+    transition: text-decoration .2s linear;
+}
+
+.message {
+    background: var(--blue);
+    transition: opacity .2s linear;
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    @media(any-hover:hover) {
+        &:hover {
+            opacity: .8;
+        }
+    }
+}

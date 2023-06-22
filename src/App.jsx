@@ -21,6 +21,7 @@ import Feed from "./pages/feed/Feed";
 import { defaultFilter } from "./redux/slices/filters/filtersSlice";
 import Dudes from "./pages/dudes/Dudes";
 import NotFound from "./pages/notFound/NotFound";
+import Dude from "./pages/dude/Dude";
 
 const App = () => {
   const { isAuth, authLoadStatus } = useSelector(authSel);
@@ -64,8 +65,9 @@ const App = () => {
               <>
                 <Route path="/" element={<Feed />} />
                 <Route path="/messages" element={<Messages />} />
-                <Route path="/messages/:id" element={<MessagesWindow />} />
+                <Route path="/messages/:dudeNickname" element={<MessagesWindow />} />
                 <Route path="/dudes" element={<Dudes />} />
+                <Route path="/dudes/:dudeNickname" element={<Dude />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />
               </>

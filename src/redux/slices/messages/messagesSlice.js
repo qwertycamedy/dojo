@@ -4,24 +4,26 @@ const initialState = {
     chats: [
         {
           id: 1,
-          myId: "01",
-          user: {
-            name: "User User",
+          dude: {
+            id: '1',
+            nickname: "Dude Dude",
             img: "",
           },
           lastMessage: {
+            id: '10000000',
             date: "06/14/23, 02:25",
             text: "Bla ble blu emae lmao i u here there",
           },
         },
         {
           id: 2,
-          myId: "02",
-          user: {
-            name: "Anonim Anonimych",
+          dude: {
+            id: '2',
+            nickname: "Anonim Anonimych",
             img: "",
           },
           lastMessage: {
+            id: '100100000',
             date: "06/14/23, 02:26",
             text: "Bla ble blu emae lmao i u here there",
           },
@@ -32,7 +34,7 @@ const initialState = {
           id: 1,
           myId: 1,
           author: {
-            name: "User User",
+            name: "Dude Dude",
             img: "",
           },
           date: "06/14/23, 02:25",
