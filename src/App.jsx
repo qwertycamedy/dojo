@@ -2,9 +2,7 @@ import React, { useEffect } from "react";
 import Header from "./components/header/Header";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Profile from "./pages/profile/Profile";
-import Messages from "./pages/messages/Messages";
 import Navbar from "./components/navbar/Navbar";
-import MessagesWindow from "./pages/messages/window/MessagesWindow";
 import { useDispatch, useSelector } from "react-redux";
 import {
   authSel,
@@ -64,8 +62,6 @@ const App = () => {
             {isAuth ? (
               <>
                 <Route path="/" element={<Feed />} />
-                <Route path="/messages" element={<Messages />} />
-                <Route path="/chat/:dudeNickname" element={<MessagesWindow />} />
                 <Route path="/dudes" element={<Dudes />} />
                 <Route path="/dudes/:dudeNickname" element={<Dude />} />
                 <Route path="/profile" element={<Profile />} />

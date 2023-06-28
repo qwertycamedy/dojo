@@ -7,10 +7,8 @@
   background: var(--black);
   border-radius: 15px;
   box-shadow: var(--shadow);
+  text-decoration: underline transparent;
   transition: transform .2s linear;
-  a {
-    text-decoration: underline transparent;
-  }
   &:hover {
     transform: scale(1.01);
 

@@ -7,15 +7,13 @@ import { loadStatus } from "../../../redux/loadStatus";
 import MyNotFound from "../../../components/_UI/myNotFound/MyNotFound";
 import Posts from "../../../components/posts/Posts";
 import Search from "../../../components/search/Search";
-import {
-  filtersSel,
+import { filtersSel,
   setSearchDebValue,
-  setSearchValue,
-} from "../../../redux/slices/filters/filtersSlice";
+  setSearchValue, } from "../../../redux/slices/filters/filtersSlice";
 
 const FeedPosts = () => {
   const { posts, postsLoadStatus } = useSelector(postsSel);
-  const { searchValue } = useSelector(filtersSel);
+  const { searchValue, } = useSelector(filtersSel);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,17 +37,8 @@ const FeedPosts = () => {
         />
       ) : postsLoadStatus === loadStatus.LOADING ? (
         <Posts posts={[]} />
-      ) : posts?.length ? (
-        <Posts posts={posts} />
       ) : (
-        !posts.length && (
-          <MyNotFound
-            title={":D"}
-            text={
-              "А постов то нет, будь батькой и создай первый пост соц. сети"
-            }
-          />
-        )
+        posts?.length && <Posts posts={posts} />
       )}
     </MySection>
   );

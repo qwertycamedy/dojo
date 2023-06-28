@@ -10,12 +10,10 @@ import Sort from "../../../components/sort/Sort";
 import { FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
 import MyNotFound from "../../../components/_UI/myNotFound/MyNotFound";
 import { loadStatus } from "../../../redux/loadStatus";
-import {
+import { 
   setSearchValue,
   setSearchDebValue,
-  setSortBy,
-  filtersSel,
-} from "../../../redux/slices/filters/filtersSlice";
+  setSortBy,filtersSel } from "../../../redux/slices/filters/filtersSlice";
 
 const ProfilePosts = () => {
   const dispatch = useDispatch();
