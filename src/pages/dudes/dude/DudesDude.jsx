@@ -16,9 +16,11 @@ const DudesDude = ({ dude }) => {
         )}
         <h3 className={`${cl.name} title-3`}>{dude.nickname}</h3>
       </Link>
-      <MyBtn classNames={cl.message}>
-        <AiOutlineMessage />
-      </MyBtn>
+      <Link to={`/chat/${dude.id}`}>
+        <MyBtn classNames={cl.message}>
+          <AiOutlineMessage />
+        </MyBtn>
+      </Link>
     </div>
   );
 };

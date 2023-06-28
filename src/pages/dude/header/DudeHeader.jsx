@@ -47,7 +47,7 @@ const DudeHeader = () => {
         )}
 
         <div className={cl.btns}>
-          <Link to={`/messages/${dude.nickname}`}>
+          <Link to={`/chat/${dude.id}`}>
             <MyBtn classNames={cl.message}>
               <AiOutlineMessage />
             </MyBtn>

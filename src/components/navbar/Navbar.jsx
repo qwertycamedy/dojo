@@ -14,6 +14,11 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li className={cl.menu_item}>
+            <NavLink className={cl.menu_link} to="/chats">
+              Chats
+            </NavLink>
+          </li>
+          <li className={cl.menu_item}>
             <NavLink className={cl.menu_link} to="/dudes">
               Dudes
             </NavLink>

@@ -22,6 +22,8 @@ const Header = () => {
   useEffect(() => {
     if (location === "/") {
       dispatch(setTitle("FEED"));
+    } else if (location.includes(`chat/`)) {
+      dispatch(setTitle("CHAT"));
     } else if (location.includes(`dudes/`)) {
       dispatch(setTitle("DUDE"));
     } else {
@@ -39,7 +41,7 @@ const Header = () => {
     <header className={cl.header}>
       <div className="container">
         <div className={cl.inner}>
-          {!location.includes("messages/") ? (
+          {!location.includes("chat/") ? (
             <Link className={cl.logo} to="/">
               <img src={logoImg} alt="DOJO" />
             </Link>
@@ -51,7 +53,7 @@ const Header = () => {
           <h1 className={cl.title + " title-1"}>{title}</h1>
           <NavLink className={cl.profile} to="/profile">
             {authUser.img ? (
-              <img src={authUser.img} alt={authUser.name} />
+              <img src={authUser.img} alt={authUser.nickname} />
             ) : (
               <FaUserCircle />
             )}
