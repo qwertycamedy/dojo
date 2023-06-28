@@ -1,70 +1,133 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import { db } from "../../../firebase";
+import { loadStatus } from "../../loadStatus";
+
+export const fetchChats = createAsyncThunk("messages/fetchChats", async () => {
+  try {
+    const res = await getDocs(collection(db, "chats"));
+    const newData = res.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    return newData;
+  } catch (err) {
+    console.log(`сообщения не получены из-за ошибки: ${err}`);
+  }
+});
+
+export const fetchChatMessages = createAsyncThunk(
+  "messages/fetchChatMessages",
+  async chatId => {
+    try {
+      const messagesRef = collection(db, "chats", chatId, "messages");
+      const q = query(messagesRef, orderBy("timestamp", "desc"), limit(35));
+      const querySnapshot = await onSnapshot(q);
+      const messages = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log(querySnapshot.docs);
+      return messages.reverse();
+    } catch (err) {
+      console.log(`сообщения не получены из-за ошибки: ${err}`);
+    }
+  }
+);
+
+export const createNewChat = createAsyncThunk(
+  "messages/createNewChat",
+  async () => {
+    try {
+
+    } catch (err) {
+      console.log('не удалось создать новый диалог')
+    }
+  }
+);
+
+export const sendNewMessage = createAsyncThunk(
+  "messages/sendNewMessage",
+  async (chatId, newMessage) => {
+    try {
+      const chatRef = collection(db, "chats", chatId, "messages");
+      await addDoc(chatRef, newMessage);
+    } catch (err) {
+      console.log(`сообщение не отправлено из-за ошибки: ${err}`);
+    }
+  }
+);
 
 const initialState = {
-    chats: [
-        {
-          id: 1,
-          dude: {
-            id: '1',
-            nickname: "Dude Dude",
-            img: "",
-          },
-          lastMessage: {
-            id: '10000000',
-            date: "06/14/23, 02:25",
-            text: "Bla ble blu emae lmao i u here there",
-          },
-        },
-        {
-          id: 2,
-          dude: {
-            id: '2',
-            nickname: "Anonim Anonimych",
-            img: "",
-          },
-          lastMessage: {
-            id: '100100000',
-            date: "06/14/23, 02:26",
-            text: "Bla ble blu emae lmao i u here there",
-          },
-        },
-      ],
-    messages: [
-        {
-          id: 1,
-          myId: 1,
-          author: {
-            name: "Dude Dude",
-            img: "",
-          },
-          date: "06/14/23, 02:25",
-          text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda magnam ad tempore explicabo atque doloribus, a iste quis harum doloremque illo corporis odio rerum nemo vero, soluta dicta. Incidunt, aperiam.",
-        },
-        {
-          id: 2,
-          myId: 2,
-          author: {
-            name: "Qwerty Camedy",
-            img: "",
-          },
-          date: "06/14/23, 02:25",
-          text: "Lorem ipsum dolor sit amet consectetur.",
-        },
-      ],
-}
+  chats: [],
+  chatsLoadStatus: "idle",
+  messages: [],
+  messagesLoadStatus: "idle",
+  newMesValue: "",
+};
 
 const messagesSlice = createSlice({
-    name: 'messages',
-    initialState,
-    reducers: {
-
+  name: "messages",
+  initialState,
+  reducers: {
+    setNewMesValue: (state, action) => {
+      state.newMesValue = action.payload;
     },
-    extraReducers: builder => {
+  },
 
-    }
-})
+  extraReducers: builder => {
+    builder
+      .addCase(fetchChats.pending, state => {
+        state.chatsLoadStatus = loadStatus.LOADING;
+        state.chats = [];
+      })
+      .addCase(fetchChats.fulfilled, (state, action) => {
+        state.chatsLoadStatus = loadStatus.SUCCESS;
+        state.chats = action.payload;
+      })
+      .addCase(fetchChats.rejected, state => {
+        state.chatsLoadStatus = loadStatus.ERROR;
+        state.chats = [];
+      })
 
-// export const {} = messagesSlice.actions;
+      .addCase(fetchChatMessages.pending, state => {
+        state.messagesLoadStatus = loadStatus.LOADING;
+      })
+      .addCase(fetchChatMessages.fulfilled, (state, action) => {
+        state.messagesLoadStatus = loadStatus.SUCCESS;
+        state.messages = action.payload;
+      })
+      .addCase(fetchChatMessages.rejected, state => {
+        state.messagesLoadStatus = loadStatus.ERROR;
+      })
+
+      .addCase(sendNewMessage.pending, (state, action) => {
+        state.chatsLoadStatus = loadStatus.LOADING;
+        state.chats[action.meta.arg] = {
+          ...state.chats[action.meta.arg],
+        };
+      })
+      .addCase(sendNewMessage.fulfilled, (state, action) => {
+        state.chatsLoadStatus = loadStatus.SUCCESS;
+        state.chats[action.meta.arg] = {
+          ...state.chats[action.meta.arg],
+        };
+      })
+      .addCase(sendNewMessage.rejected, (state, action) => {
+        state.chatsLoadStatus = loadStatus.ERROR;
+        state.chats[action.meta.arg] = {
+          ...state.chats[action.meta.arg],
+        };
+      });
+  },
+});
+
+export const { setNewMesValue } = messagesSlice.actions;
 
 export const messagesSel = state => state.messages;
 

@@ -10,7 +10,7 @@ import { authSel } from "../../redux/slices/auth/authSlice";
 import MyBtn from "../_UI/myBtn/MyBtn";
 import { messagesSel } from "../../redux/slices/messages/messagesSlice";
 import { loadStatus } from "../../redux/loadStatus";
-import { dudeSel } from "../../redux/slices/dude/dudeSlice";
+import { dudeSel, fetchDude } from "../../redux/slices/dude/dudeSlice";
 
 const Header = () => {
   const { title } = useSelector(headerSel);
