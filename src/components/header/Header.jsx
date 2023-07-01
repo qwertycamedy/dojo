@@ -24,7 +24,7 @@ const Header = () => {
       dispatch(setTitle("FEED"));
     } else if (location.includes(`chat/`)) {
       dispatch(setTitle("CHAT"));
-    } else if (location.includes(`dudes/`)) {
+    } else if (location.includes(`dude/`)) {
       dispatch(setTitle("DUDE"));
     } else {
       dispatch(setTitle(location.substring(1)));
@@ -36,6 +36,9 @@ const Header = () => {
       dispatch(setTitle("Loading"));
     }
   }, [dispatch, location, dude, isAuth, authLoadStatus]);
+
+  const isProfile = ({ isActive }) =>
+    isActive ? `${cl.profile} ${cl.profile_active}` : cl.profile;
 
   return (
     <header className={cl.header}>
@@ -51,7 +54,7 @@ const Header = () => {
             </MyBtn>
           )}
           <h1 className={cl.title + " title-1"}>{title}</h1>
-          <NavLink className={cl.profile} to="/profile">
+          <NavLink className={isProfile} to="/profile">
             {authUser.img ? (
               <img src={authUser.img} alt={authUser.nickname} />
             ) : (

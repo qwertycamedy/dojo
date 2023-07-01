@@ -87,7 +87,7 @@ const Post = ({
     <div className={cl.post}>
       <div className={cl.header}>
         {authUser.id !== author.id ? (
-          <Link className={cl.link} to={`dudes/${author.name}`}>
+          <Link className={cl.link} to={`dude/${author.name}`}>
             <div className={cl.user}>
               {author.img ? (
                 <img

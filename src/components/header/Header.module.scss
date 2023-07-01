@@ -51,4 +51,8 @@
       width: inherit;
       height: inherit;
   }
+
+  &_active {
+    color: var(--accent);
+  }
 }

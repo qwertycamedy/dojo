@@ -8,7 +8,7 @@ import { AiOutlineMessage } from "react-icons/ai";
 const DudesDude = ({ dude }) => {
   return (
     <div className={cl.dude}>
-      <Link className={cl.info} to={`/dudes/${dude.nickname}`}>
+      <Link className={cl.info} to={`/dude/${dude.nickname}`}>
         {dude.img ? (
           <img className={cl.img} src={dude.img} alt={dude.nickname} />
         ) : (

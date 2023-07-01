@@ -67,7 +67,7 @@ const App = () => {
                 <Route path="/chats" element={<Chats />} />
                 <Route path="/chat/:id" element={<Chat />} />
                 <Route path="/dudes" element={<Dudes />} />
-                <Route path="/dudes/:dudeNickname" element={<Dude />} />
+                <Route path="/dude/:dudeNickname" element={<Dude />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />
               </>
