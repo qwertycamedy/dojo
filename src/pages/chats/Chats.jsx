@@ -1,34 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import cl from "./Chats.module.scss";
 import ChatsChat from "./chat/ChatsChat";
 import MyPage from "../../components/_UI/myPage/MyPage";
 import MySection from "../../components/_UI/mySection/MySection";
+import { useDispatch, useSelector } from "react-redux";
+import { chatsSel, fetchChats } from "../../redux/slices/chats/chatsSlice";
+import { loadStatus } from "../../redux/loadStatus";
+import MyNotFound from "../../components/_UI/myNotFound/MyNotFound";
+import Loader from "../../components/loader/Loader";
 
 const Chats = () => {
-  const chats = [
-    {
-      id: "asdfafew23",
-      img: "data:image/jpeg;base64,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",
-      nickname: "SunMary",
-    },
-    {
-      id: "232",
-      img: "",
-      nickname: "M16",
-    },
-    {
-      id: "bgbgbgaw2425",
-      img: "",
-      nickname: "Hello World",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { chats, chatsLoadStatus } = useSelector(chatsSel);
+
+  useEffect(() => {
+    dispatch(fetchChats());
+  }, [dispatch]);
+
   return (
-    <MyPage>
-      <MySection>
+    <MyPage classNames={cl.chats}>
+      <MySection classNames={cl.section} containerCl={cl.container}>
         <div className={cl.inner}>
-          {chats.map(chat => (
-            <ChatsChat chat={chat} key={chat.id} />
-          ))}
+          {chatsLoadStatus === loadStatus.LOADING ? (
+            <Loader />
+          ) : chatsLoadStatus === loadStatus.ERROR ? (
+            <MyNotFound title={":<"} text={"Не удалось получить сообщения"} />
+          ) : chats?.length ? (
+            chats.map(chat => <ChatsChat chat={chat} key={chat.id} />)
+          ) : (
+            !chats.length && (
+              <MyNotFound
+                title={":)"}
+                text={"Нет чатов, пообщайтесь с кем-нибудь"}
+              />
+            )
+          )}
         </div>
       </MySection>
     </MyPage>

@@ -1,5 +1,9 @@
-.inner {
+.chats, .section, .container, .inner {
   display: flex;
   flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.inner {
   gap: 15px;
 }
