@@ -4,9 +4,6 @@ import MySection from "../../../components/_UI/mySection/MySection";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
-import MyBtn from "../../../components/_UI/myBtn/MyBtn";
-import { AiOutlineMessage } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { dudeSel, setIsStatusShorted } from "../../../redux/slices/dude/dudeSlice";
 
 const DudeHeader = () => {
@@ -45,14 +42,6 @@ const DudeHeader = () => {
             <span>{isStatusShorted ? " Less" : " More"}</span>
           </button>
         )}
-
-        <div className={cl.btns}>
-          <Link to={`/chat/${dude.id}`}>
-            <MyBtn classNames={cl.message}>
-              <AiOutlineMessage />
-            </MyBtn>
-          </Link>
-        </div>
       </div>
     </MySection>
   );

@@ -6,15 +6,11 @@ import filters from "./slices/filters/filtersSlice";
 import profileHeader from "./slices/profile/profileHeaderSlice";
 import dudes from "./slices/dudes/dudesSlice";
 import dude from "./slices/dude/dudeSlice";
-import chats from './slices/chats/chatsSlice'
-import chat from './slices/chat/chatSlice'
 
 export const store = configureStore({
   reducer: {
     auth,
     header,
-    chats,
-    chat,
     dudes,
     dude,
     posts,
