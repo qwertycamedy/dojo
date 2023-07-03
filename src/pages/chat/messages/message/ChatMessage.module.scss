@@ -1,0 +1,33 @@
+.message {
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 80%;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  &.notMe {
+    background: var(--gray);
+    .name {
+        margin-left: unset;
+    }
+  }
+
+  &.me {
+    background: var(--black);
+    margin-left: auto;
+  }
+}
+.name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+.date {
+    margin-left: auto;
+    width: max-content;
+    margin-top: 5px;
+    font-style: italic;
+    opacity: 0.8;
+  }

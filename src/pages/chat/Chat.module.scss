@@ -1,0 +1,16 @@
+.page {
+    flex: 1 0 auto;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        
+        width: 100%;
+}

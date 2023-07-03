@@ -20,6 +20,7 @@ import { defaultFilter } from "./redux/slices/filters/filtersSlice";
 import Dudes from "./pages/dudes/Dudes";
 import NotFound from "./pages/notFound/NotFound";
 import Dude from "./pages/dude/Dude";
+import Chat from "./pages/chat/Chat";
 
 const App = () => {
   const { isAuth, authLoadStatus } = useSelector(authSel);
@@ -62,6 +63,7 @@ const App = () => {
             {isAuth ? (
               <>
                 <Route path="/" element={<Feed />} />
+                <Route path="/chat" element={<Chat />} />
                 <Route path="/dudes" element={<Dudes />} />
                 <Route path="/dude/:dudeNickname" element={<Dude />} />
                 <Route path="/profile" element={<Profile />} />

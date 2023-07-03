@@ -20,7 +20,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className={cl.menu_item}>
-              <NavLink className={isActive} to="/chats">
+              <NavLink className={isActive} to="/chat">
                 <BsChatLeftTextFill />
               </NavLink>
             </li>
