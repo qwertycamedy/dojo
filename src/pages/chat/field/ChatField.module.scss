@@ -1,4 +1,8 @@
 .outer {
+    position: fixed;
+    bottom: 90px;
+    left: 15px;
+    width: calc(100% - 30px);
     display: flex;
     align-items: center;
     gap: 10px;

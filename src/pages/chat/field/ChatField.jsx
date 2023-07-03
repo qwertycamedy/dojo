@@ -9,16 +9,31 @@ import {
 } from "../../../redux/slices/chat/chatSlice";
 import MyBtn from "../../../components/_UI/myBtn/MyBtn";
 import { LuSend } from "react-icons/lu";
+import { authSel } from "../../../redux/slices/auth/authSlice";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../../firebase";
 
-const ChatField = () => {
+const ChatField = ({scroll}) => {
   const dispatch = useDispatch();
   const { chatFieldVal } = useSelector(chatSel);
-
+  const { authUser } = useSelector(authSel);
   const fieldRef = createRef();
 
-  const sendNewMes = () => {
-    console.log(chatFieldVal);
+  const sendNewMes = async () => {
+    if (chatFieldVal === '') {
+      return
+    }
+    const newMessage = {
+      author: {
+        nickname: authUser.nickname,
+        id: authUser.id,
+      },
+      text: chatFieldVal,
+      timestamp: serverTimestamp()
+    }
+    await addDoc(collection(db, 'messages'), newMessage)
     dispatch(clearChatFieldVal());
+    scroll.current.scrollIntoView({behavior: 'smooth'})
   };
 
   const handleEnter = (e) => {

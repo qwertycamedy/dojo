@@ -1,6 +1,7 @@
 .message {
   border-radius: 10px;
   padding: 10px;
+  margin-bottom: 15px;
   max-width: 80%;
   box-shadow: var(--shadow);
   display: flex;
@@ -15,6 +16,10 @@
   &.me {
     background: var(--black);
     margin-left: auto;
+  }
+
+  &:last-child {
+    margin-bottom: 80px;
   }
 }
 .name {
