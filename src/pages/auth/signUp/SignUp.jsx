@@ -43,7 +43,7 @@ const SignUp = () => {
           token: user.accessToken,
           id: user.uid,
         };
-        const newDude = { id: user.uid, nickname: user.displayName };
+        const newDude = { nickname: user.displayName, id: user.uid, myId: user.uid, };
         await addDoc(collection(db, "dudes"), newDude);
         dispatch(signUser(newUser));
         dispatch(setIsSignUpM(false));

@@ -13,12 +13,11 @@ import { authSel } from "../../redux/slices/auth/authSlice";
 const Dudes = () => {
   const dispatch = useDispatch();
   const { dudes, dudesLoadStatus } = useSelector(dudesSel);
-  const {authUser} = useSelector(authSel);
-  useEffect(() => {
-    dispatch(fetchDudes());
-  }, [dispatch]);
+  const { authUser } = useSelector(authSel);
 
-  const wMeDudes = dudes.filter(dude => dude.id !== authUser.id)
+  useEffect(() => {
+    dispatch(fetchDudes(authUser.id));
+  }, [dispatch, authUser.id]);
 
   return (
     <MyPage classNames={cl.outer}>
@@ -29,7 +28,7 @@ const Dudes = () => {
           <MyNotFound title={":/"} text={"чуваки не найдены"} />
         ) : (
           <div className={cl.dudes}>
-            {wMeDudes.map(dude => (
+            {dudes.map(dude => (
               <DudesDude dude={dude} key={dude.id} />
             ))}
           </div>

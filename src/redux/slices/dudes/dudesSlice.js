@@ -3,11 +3,12 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { loadStatus } from "../../loadStatus";
 
-export const fetchDudes = createAsyncThunk("dudes/fetchDudes", async () => {
+export const fetchDudes = createAsyncThunk("dudes/fetchDudes", async (authUserId) => {
     try {
         const res = await getDocs(collection(db, "dudes"));
         const newData = res.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-        return newData;
+        const filteredData = newData.filter(dude => dude.myId !== authUserId);
+        return filteredData;
       } catch (err) {
         console.log(err);
       }
